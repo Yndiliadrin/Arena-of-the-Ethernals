@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  reverse-proxy:
+    image: reverse-proxy-dev
+    container_name: reverse-proxy-dev
+    build:
+      context: ./reverse_proxy
+      dockerfile: dev.Dockerfile
+    networks:
+      review-network: {}
+    depends_on:
+      - frontend
+      - backend
+      - database
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+
+  frontend:
+    image: review-frontend-dev
+    container_name: review-frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./frontend/container/app:/app
+    ports:
+      - "8050:80"

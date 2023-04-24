@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  # COMMON SERVICES
+  reverse-proxy:
+    image: reverse-proxy
+    container_name: review-reverse-proxy
+    build:
+      context: ./reverse_proxy
+      dockerfile: Dockerfile
+    networks:
+      ate-network: {}
+    depends_on:
+      - frontend
+      - backend
+      - database
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+
+  frontend:
+    image: review-frontend
+    container_name: review-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      ate-network: {}
+    restart: on-failure
+
+networks:
+  ate-network:
