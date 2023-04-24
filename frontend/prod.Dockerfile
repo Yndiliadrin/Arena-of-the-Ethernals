@@ -1,5 +1,5 @@
 #stage1
-FROM node:14.17.6-alpine as deployment
+FROM node:16.13.2-buster as deployment
 WORKDIR /app
 COPY . .
 RUN npm install
