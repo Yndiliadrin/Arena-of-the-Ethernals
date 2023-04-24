@@ -11,7 +11,7 @@ services:
       ate-network: {}
     depends_on:
       - frontend
-      # - backend
+      - backend
       # - database
     ports:
       - "80:80"
@@ -23,6 +23,17 @@ services:
     container_name: ate-frontend
     build:
       context: ./frontend
+      dockerfile: prod.Dockerfile
+    networks:
+      ate-network: {}
+    restart: on-failure
+
+  backend:
+    image: ate-backend
+    container_name: ate-backend
+    command: npm run start
+    build:
+      context: ./backend
       dockerfile: prod.Dockerfile
     networks:
       ate-network: {}

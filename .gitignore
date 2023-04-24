@@ -105,3 +105,5 @@ dist
 
 **/.angular
 **/.vscode
+
+backend/container/aofe-backend/src/index.js

@@ -7,9 +7,19 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     volumes:
-      - /app/node_modules
       - ./frontend/container/aofe-frontend:/usr/frontend/src/app
     networks:
       ate-network: {}
     ports:
       - "8050:4200"
+
+  backend:
+    image: ate-backend-dev
+    container_name: ate-backend-dev
+    build:
+      context: ./backend
+    volumes:
+      - ./backend/container/aofe-backend:/usr/backend/src/app
+    networks:
+      ate-network: {}
+    restart: on-failure
