@@ -1,17 +1,25 @@
-import express from "express";
+import express, { response } from "express";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { ensureAdminExists } from "./database/user/userBootstrap.js";
 
+dotenv.config();
+
 const app = express();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-mongoose.connect("mongodb://database");
+mongoose.connect("mongodb://database", {
+  user: process.env["DATABASE_USER_USERNAME"],
+  pass: process.env["DATABASE_USER_PASSWORD"],
+  dbName: "Arena",
+});
 
-const db = mongoose.connection;
+export const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB successfully");
@@ -24,11 +32,13 @@ app.use((req: any, res: any, next: any) => {
   next();
 });
 
-app.use("/", (req: any, res: any) => {
-  res.send("ok");
+app.use("/status", (req: any, res: any) => {
+  res.status(200).json({message:"ok"});
 });
 
-app.use("", express.static("public"));
+app.use("/", (req: any, res: any) => {
+  res.send("error");
+});
 
 app.listen(80, () => {
   console.log("Server is running on http://localhost:80");

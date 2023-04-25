@@ -26,6 +26,7 @@ export const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -42,6 +43,6 @@ export const userSchema = new Schema({
   },
   character: {
     type: characterSchema,
-    required: true,
+    required: false,
   },
 });

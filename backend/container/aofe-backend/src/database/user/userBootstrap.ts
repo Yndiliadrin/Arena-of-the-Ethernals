@@ -16,8 +16,8 @@ export const ensureAdminExists = async () => {
       const newAdmin = new User({
         username: "admin",
         password: "admin123",
+        salt:"asdasd",
         accessLevel: 3,
-        birthdate: new Date(),
       });
       await newAdmin.save();
       console.log("Az admin felhasználó sikeresen létrehozva!");
