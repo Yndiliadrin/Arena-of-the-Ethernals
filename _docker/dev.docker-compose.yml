@@ -7,7 +7,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     volumes:
-      - ./frontend/container/aofe-frontend:/usr/frontend/src/app
+      - ./frontend/container/aofe-frontend:/app
     networks:
       ate-network: {}
     ports:
@@ -26,5 +26,8 @@ services:
     restart: on-failure
 
   database:
+    container_name: ate-database-dev
+    volumes:
+      - /ate-dev/db:/data/db
     ports:
       - "8051:27017"

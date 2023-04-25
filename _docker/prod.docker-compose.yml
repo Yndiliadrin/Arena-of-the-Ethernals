@@ -39,12 +39,18 @@ services:
       dockerfile: prod.Dockerfile
     networks:
       ate-network: {}
+    volumes:
+      - ./.env:/app/.env
     restart: on-failure
 
   database:
     command: mongod --quiet --logpath /dev/null
     image: mongo
-    container_name: demo-app-db
+    container_name: ate-database
+    environment:
+       MONGO_INITDB_ROOT_USERNAME : ${DATABASE_USER_USERNAME}
+       MONGO_INITDB_ROOT_PASSWORD : ${DATABASE_USER_PASSWORD}
+       MONGO_INITDB_DATABASE : arena
     networks:
       ate-network:
         aliases:
