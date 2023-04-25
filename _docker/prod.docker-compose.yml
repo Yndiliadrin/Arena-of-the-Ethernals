@@ -12,7 +12,7 @@ services:
     depends_on:
       - frontend
       - backend
-      # - database
+      - database
     ports:
       - "80:80"
       - "443:443"
@@ -32,12 +32,28 @@ services:
     image: ate-backend
     container_name: ate-backend
     command: npm run start
+    depends_on:
+      - database
     build:
       context: ./backend
       dockerfile: prod.Dockerfile
     networks:
       ate-network: {}
     restart: on-failure
+
+  database:
+    command: mongod --quiet --logpath /dev/null
+    image: mongo
+    container_name: demo-app-db
+    networks:
+      ate-network:
+        aliases:
+          - mongo
+          - db
+    volumes:
+      - /ate/db:/data/db
+    restart: on-failure
+
 
 networks:
   ate-network:

@@ -14,12 +14,17 @@ services:
       - "8050:4200"
 
   backend:
+    command: npm run dev
     image: ate-backend-dev
     container_name: ate-backend-dev
     build:
       context: ./backend
     volumes:
-      - ./backend/container/aofe-backend:/usr/backend/src/app
+      - ./backend/container/aofe-backend:/app
     networks:
       ate-network: {}
     restart: on-failure
+
+  database:
+    ports:
+      - "8051:27017"
