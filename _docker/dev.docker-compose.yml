@@ -7,7 +7,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     volumes:
-      - ./frontend/container/aofe-frontend:/app
+      - ./frontend/container/aofe-frontend/src:/app/src
     networks:
       ate-network: {}
     ports:
@@ -21,7 +21,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend/container/aofe-backend:/app
+      - ./backend/container/aofe-backend/src:/app/src
     networks:
       ate-network: {}
     restart: on-failure
