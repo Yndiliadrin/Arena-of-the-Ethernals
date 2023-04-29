@@ -4,8 +4,6 @@ WORKDIR /app
 
 COPY ./container/aofe-backend/ /app/
 
-RUN touch .env
-
 RUN npm install
 RUN chown -R node node_modules
 RUN npm run build
