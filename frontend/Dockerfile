@@ -4,8 +4,10 @@ WORKDIR /app
 
 COPY ./container/aofe-frontend/ /app/
 
-RUN npm install
-
 RUN npm install -g @angular/cli
 
-CMD npm start
+RUN npm install
+
+RUN npm run build
+
+CMD npm run start
