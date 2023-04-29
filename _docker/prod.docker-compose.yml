@@ -52,7 +52,7 @@ services:
     environment:
        MONGO_INITDB_ROOT_USERNAME : ${DATABASE_USER_USERNAME}
        MONGO_INITDB_ROOT_PASSWORD : ${DATABASE_USER_PASSWORD}
-       MONGO_INITDB_DATABASE : arena
+       MONGO_INITDB_DATABASE : Arena
     networks:
       ate-network:
         aliases:
