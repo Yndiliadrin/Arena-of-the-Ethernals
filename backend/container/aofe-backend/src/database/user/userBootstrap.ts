@@ -6,17 +6,13 @@ const User = mongoose.model("user", userSchema);
 
 export const ensureAdminExists = async () => {
   try {
-    // Ellenőrizzük, van-e már admin felhasználó az adatbázisban
-    const admin = await User.findOne({ accessLevel: 3 }); //a findOne-nal jelezzük, hogy pontosan egy darab usert keresünk
+    const admin = await User.findOne({ accessLevel: 3 });
     if (admin) {
-      //ha kaptunk vissza objektumot, akkor ez a feltétel igazra teljesül, ha üres/undefine, akkor hamisra
       console.log("Az admin felhasználó már megtalálható az adatbázisban!");
     } else {
-      // Ha nincs, akkor létrehozunk egy újat
       const newAdmin = new User({
-        username: "admin",
-        password: "admin123",
-        salt:"asdasd",
+        username: process.env["ADMIN_USER_USERNAME"],
+        password: process.env["ADMIN_USER_PASSWORD"],
         accessLevel: 3,
       });
       await newAdmin.save();

@@ -5,6 +5,12 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { ensureAdminExists } from "./database/user/userBootstrap.js";
 
+import passport from "passport";
+import localStrategy from "passport-local";
+import expressSession from "express-session";
+import { User, userSchema } from "./database/user/userSchema.js";
+import { userRouter } from "./routes/user/user.router.js";
+
 dotenv.config();
 
 const app = express();
@@ -25,15 +31,47 @@ db.once("open", () => {
   console.log("Connected to MongoDB successfully");
 });
 
-ensureAdminExists();
+passport.use(
+  "local",
+  new localStrategy.Strategy(function (username, password, done) {
+    User.findOne({ username: username })
+      .then((user: any) => {
+        if (!user) return done("Nincs ilyen felhasználónév", null);
+        user.comparePasswords(password, function (error: any, isMatch: any) {
+          if (error) return done(error, false);
+          if (!isMatch) return done("Hibas jelszo", false);
+          return done(null, user);
+        });
+      })
+      .catch((error) => done("Hiba lekeres soran", null));
+  })
+);
+
+passport.serializeUser(function (user, done) {
+  if (!user) return done("nincs megadva beléptethető felhasználó", null);
+  return done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  if (!user) return done("nincs user akit kiléptethetnénk", null);
+  return done(null, user);
+});
+
+app.use(
+  expressSession({ secret: process.env["SESSION_SECRET"], resave: true })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req: any, res: any, next: any) => {
   console.log("A middleware futott!");
   next();
 });
 
+app.use("/users", userRouter);
+
 app.use("/status", (req: any, res: any) => {
-  res.status(200).json({message:"ok"});
+  res.status(200).json({ message: "ok" });
 });
 
 app.use("/", (req: any, res: any) => {
@@ -41,5 +79,6 @@ app.use("/", (req: any, res: any) => {
 });
 
 app.listen(80, () => {
+  ensureAdminExists();
   console.log("Server is running on http://localhost:80");
 });
