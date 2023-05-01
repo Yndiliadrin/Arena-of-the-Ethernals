@@ -12,11 +12,7 @@ export interface ICharacter {
   exp: number;
 }
 
-export interface INpc extends ICharacter {
-  name: string;
-}
-
-const characterSchema = new Schema<ICharacter>({
+export const characterSchema = new Schema<ICharacter>({
   strength: {
     type: Number,
     required: true,
@@ -61,15 +57,6 @@ const characterSchema = new Schema<ICharacter>({
   },
 });
 
-const npcSchema = new Schema<INpc>({
-  name: {
-    type: String,
-    required: true,
-  },
-  ...characterSchema.obj,
-});
-
-export const Npc = mongoose.model<INpc>("npc", npcSchema);
 export const Character = mongoose.model<ICharacter>(
   "character",
   characterSchema

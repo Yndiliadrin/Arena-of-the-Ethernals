@@ -1,4 +1,5 @@
 import { User } from "../../database/user/userSchema.js";
+import { NextFunction } from "express";
 
 export async function getUser(req, res, next) {
   if (!req.user) return res.status(499).json({ message: "Unauthorized" });
@@ -16,7 +17,9 @@ export async function getUser(req, res, next) {
       password: 0,
       salt: 0,
       "character._id": 0,
-    }).populate("character.equipment");
+    })
+      .populate("character.equipment")
+      .populate("character.inventory");
     if (user == null) {
       return res.status(404).json({ message: "A felhasználó nem található" });
     }
@@ -27,6 +30,29 @@ export async function getUser(req, res, next) {
     next();
   }
 }
+
+export const MGetUserForUpdate = async (
+  req: any,
+  res: any,
+  next: NextFunction
+) => {
+  if (!req.user) return res.status(499).json({ message: "Unauthorized" });
+  let user = null;
+  try {
+    user = await User.findById(req.params.id)
+      .populate("character.equipment")
+      .populate("character.inventory");
+    if (user == null) {
+      return res.status(404).json({ message: "A felhasználó nem található" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  } finally {
+    console.log(user);
+    res.user = user;
+    next();
+  }
+};
 
 export async function MGetUsers(req, res, next) {
   if (!req.user) return res.status(499).json({ message: "Unauthorized" });
@@ -42,7 +68,9 @@ export async function MGetUsers(req, res, next) {
         accessLevel: 0,
         "character._id": 0,
       }
-    ).populate("character.equipment");
+    )
+      .populate("character.equipment")
+      .populate("character.inventory");
     if (!user) {
       return res
         .status(404)

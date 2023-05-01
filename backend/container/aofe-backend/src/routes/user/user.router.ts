@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import { login, logout, regiszt, user_status } from "./user.auth.service.js";
-import { MGetUsers, getUser } from "./user.middleware.js";
-import { getUsers } from "./user.service.js";
+import { MGetUserForUpdate, MGetUsers, getUser } from "./user.middleware.js";
+import { getUsers, updateUser } from "./user.service.js";
 
 const User = mongoose.model("user");
 
@@ -35,29 +35,7 @@ userRouter.get("/:id", getUser, (req, res: any) => {
   res.json(res.user); //egyszerűsített válaszküldés, a megadott objektumot json-re konvertálva küldjük el
 });
 
-// PATCH /users/:id - egy felhasználó frissítése az id alapján
-// TODO: refactorit
-userRouter.patch("/:id", getUser, async (req, res: any) => {
-  if (req.body.username != null) {
-    res.user.username = req.body.username;
-  }
-  if (req.body.password != null) {
-    res.user.password = req.body.password;
-  }
-  if (req.body.accessLevel != null) {
-    res.user.accessLevel = req.body.accessLevel;
-  }
-  if (req.body.birthdate != null) {
-    res.user.birthdate = req.body.birthdate;
-  }
-
-  try {
-    const updatedUser = await res.user.save();
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+userRouter.patch("/:id", MGetUserForUpdate, updateUser);
 
 // DELETE /users/:id - egy felhasználó törlése az id alapján
 userRouter.delete("/:id", getUser, async (req, res: any) => {
