@@ -11,6 +11,7 @@ import expressSession from "express-session";
 import { User, userSchema } from "./database/user/userSchema.js";
 import { userRouter } from "./routes/user/user.router.js";
 import { status } from "./index.service.js";
+import { populateItemsCollection } from "./database/item/itemBootstrap.js";
 
 dotenv.config();
 
@@ -79,5 +80,6 @@ app.use("/", (req: any, res: any) => {
 
 app.listen(80, () => {
   ensureAdminExists();
+  populateItemsCollection();
   console.log("Server is running on http://localhost:80");
 });
