@@ -37,6 +37,7 @@ passport.use(
   "local",
   new localStrategy.Strategy(function (username, password, done) {
     User.findOne({ username: username })
+      .populate("character.equipment")
       .then((user: any) => {
         if (!user) return done("Nincs ilyen felhasználónév", null);
         user.comparePasswords(password, function (error: any, isMatch: any) {
@@ -74,9 +75,7 @@ app.use("/api/users", userRouter);
 
 app.use("/status", status);
 
-app.use("/", (req: any, res: any) => {
-  res.send("error");
-});
+app.use("", express.static('public'));
 
 app.listen(80, () => {
   ensureAdminExists();

@@ -29,4 +29,4 @@ export const itemSchema = new Schema<IItem>({
   },
 });
 
-export const Item = mongoose.model<IItem>("item", itemSchema);
+export const Item = mongoose.model<IItem>("items", itemSchema);

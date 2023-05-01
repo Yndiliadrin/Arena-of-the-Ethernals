@@ -10,7 +10,7 @@ export const populateItemsCollection = async () => {
 
     const databaseItems = await Item.find();
     
-    if (!databaseItems) {
+    if (databaseItems.length) {
         console.log("The database already contains items")
         return;
     } 

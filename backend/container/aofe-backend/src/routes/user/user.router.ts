@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import { login, logout, regiszt, user_status } from "./user.auth.service.js";
+import { MGetUsers, getUser } from "./user.middleware.js";
+import { getUsers } from "./user.service.js";
 
 const User = mongoose.model("user");
 
@@ -12,7 +14,9 @@ userRouter.route("/logout").post(logout);
 
 userRouter.route("/status").get(user_status);
 
-userRouter.post("/", regiszt);
+userRouter.route("/").post(regiszt);
+
+userRouter.get("/" , MGetUsers, getUsers);
 
 // GET /users - összes felhasználó lekérdezése
 userRouter.get("/", async (req, res) => {
@@ -31,25 +35,8 @@ userRouter.get("/:id", getUser, (req, res: any) => {
   res.json(res.user); //egyszerűsített válaszküldés, a megadott objektumot json-re konvertálva küldjük el
 });
 
-// Middleware a felhasználók lekérdezése előtt az id alapján - nem minden route-ra kell meghívnunk
-// NodeJS-ben async jelöli az aszinkron műveleteket, amelyeknek a lefutási ideje nem determinisztikus, és
-// az await várakozási parancsot akarjuk bennük használni
-async function getUser(req, res, next) {
-  let user = null;
-  try {
-    user = await User.findById(req.params.id);
-    if (user == null) {
-      return res.status(404).json({ message: "A felhasználó nem található" });
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  } finally {
-    res.user = user;
-    next();
-  }
-}
-
 // PATCH /users/:id - egy felhasználó frissítése az id alapján
+// TODO: refactorit
 userRouter.patch("/:id", getUser, async (req, res: any) => {
   if (req.body.username != null) {
     res.user.username = req.body.username;
@@ -75,7 +62,7 @@ userRouter.patch("/:id", getUser, async (req, res: any) => {
 // DELETE /users/:id - egy felhasználó törlése az id alapján
 userRouter.delete("/:id", getUser, async (req, res: any) => {
   try {
-    await res.user.remove();
+    await User.deleteOne({ _id: res.user._id });
     res.json({ message: "A felhasználó sikeresen törölve!" });
   } catch (error) {
     res.status(500).json({ message: error.message });

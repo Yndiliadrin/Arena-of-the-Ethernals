@@ -15,7 +15,7 @@ export const login = (req: any, res: any, next: NextFunction) => {
       if (error) return res.status(500).send(error);
       req.login(user, (error) => {
         if (error) return res.status(500).send(error);
-        return res.status(200).send("Bejelentkezes sikeres");
+        return res.status(200).send(user);
       });
     })(req, res);
   } else {

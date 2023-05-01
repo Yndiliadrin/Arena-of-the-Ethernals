@@ -1,8 +1,1 @@
-[
-  {
-    "name": "Wooden Club",
-    "slot": "main",
-    "defense": 0,
-    "damage": 1
-  }
-]
+[{"name":"Wooden Club","slot":"main","defense":0,"damage":1},{"name":"Iron Sword","slot":"main","defense":0,"damage":2},{"name":"Iron Mace","slot":"main","defense":0,"damage":2},{"name":"Spear","slot":"main","defense":0,"damage":2},{"name":"Broken Wooden Shield","slot":"secondary","defense":1,"damage":0},{"name":"Wooden Shield","slot":"secondary","defense":2,"damage":0},{"name":"Reinforced Wooden Shield","slot":"secondary","defense":3,"damage":0},{"name":"Chain Hood","slot":"head","defense":3,"damage":0},{"name":"Chestplate","slot":"chest","defense":4,"damage":0},{"name":"Shin Guard","slot":"foot","defense":2,"damage":0},{"name":"Steel Sword","slot":"main","defense":0,"damage":4},{"name":"Steel Mace","slot":"main","defense":0,"damage":4},{"name":"Steel Pike","slot":"twohanded","defense":0,"damage":6}]

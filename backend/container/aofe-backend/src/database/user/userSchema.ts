@@ -17,10 +17,15 @@ const characterSchema = new Schema({
     required: true,
     default: 1,
   },
+  hp: {
+    type: Number,
+    required: true,
+    default: 10
+  },
   equipment: {
     type: [Schema.Types.ObjectId],
     required: true,
-    ref: "Item",
+    ref: "items",
     default: [],
   },
   level: {
@@ -55,6 +60,10 @@ export const userSchema = new Schema({
     default: new Character(),
   },
 });
+
+// {
+//   equipment: ["644f7bb8565a049ce5b707d2" as unknown as Schema.Types.ObjectId]
+// }
 
 // #3 A user sémájához egy pre-hookot adunk hozzá, amely a mentés előtt fut le
 userSchema.pre("save", function (next) {
