@@ -29,6 +29,6 @@ services:
   database:
     container_name: ate-database-dev
     volumes:
-      - /ate-dev/db:/data/db
+      - ./database/dev-db:/data/db
     ports:
       - "8051:27017"

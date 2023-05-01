@@ -13,7 +13,7 @@ services:
       - backend
       - database
     ports:
-      - "80:80"
+      - "90:80"
       - "443:443"
     restart: on-failure
 
@@ -38,6 +38,7 @@ services:
       ADMIN_USER_PASSWORD : ${ADMIN_USER_PASSWORD}
       DATABASE_USER_USERNAME : ${DATABASE_USER_USERNAME}
       DATABASE_USER_PASSWORD : ${DATABASE_USER_PASSWORD}
+      SESSION_SECRET : ${SESSION_SECRET}
     build:
       context: ./backend
       dockerfile: prod.Dockerfile
@@ -59,7 +60,7 @@ services:
           - mongo
           - db
     volumes:
-      - /ate/db:/data/db
+      - ./database/prod-db:/data/db
     restart: on-failure
 
 
