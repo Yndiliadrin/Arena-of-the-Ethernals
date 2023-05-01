@@ -10,6 +10,7 @@ import localStrategy from "passport-local";
 import expressSession from "express-session";
 import { User, userSchema } from "./database/user/userSchema.js";
 import { userRouter } from "./routes/user/user.router.js";
+import { status } from "./index.service.js";
 
 dotenv.config();
 
@@ -68,11 +69,9 @@ app.use((req: any, res: any, next: any) => {
   next();
 });
 
-app.use("/users", userRouter);
+app.use("/api/users", userRouter);
 
-app.use("/status", (req: any, res: any) => {
-  res.status(200).json({ message: "ok" });
-});
+app.use("/status", status);
 
 app.use("/", (req: any, res: any) => {
   res.send("error");
