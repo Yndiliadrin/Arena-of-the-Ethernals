@@ -1,8 +1,23 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
-const characterSchema = new Schema({
-  strenght: {
+export interface ICharacter {
+  hp: number;
+  strength: number;
+  dexterity: number;
+  intelligence: number;
+  equipment: Array<Schema.Types.ObjectId>;
+  inventory: Array<Schema.Types.ObjectId>;
+  level: number;
+  exp: number;
+}
+
+export interface INpc extends ICharacter {
+  name: string;
+}
+
+const characterSchema = new Schema<ICharacter>({
+  strength: {
     type: Number,
     required: true,
     default: 1,
@@ -20,9 +35,15 @@ const characterSchema = new Schema({
   hp: {
     type: Number,
     required: true,
-    default: 10
+    default: 10,
   },
   equipment: {
+    type: [Schema.Types.ObjectId],
+    required: true,
+    ref: "items",
+    default: [],
+  },
+  inventory: {
     type: [Schema.Types.ObjectId],
     required: true,
     ref: "items",
@@ -33,9 +54,26 @@ const characterSchema = new Schema({
     required: true,
     default: 0,
   },
+  exp: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
 });
 
-export const Character = mongoose.model("npc", characterSchema);
+const npcSchema = new Schema<INpc>({
+  name: {
+    type: String,
+    required: true,
+  },
+  ...characterSchema.obj,
+});
+
+export const Npc = mongoose.model<INpc>("npc", npcSchema);
+export const Character = mongoose.model<ICharacter>(
+  "character",
+  characterSchema
+);
 
 export const userSchema = new Schema({
   username: {

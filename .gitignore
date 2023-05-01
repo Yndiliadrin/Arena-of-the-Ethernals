@@ -107,3 +107,5 @@ dist
 **/.vscode
 
 backend/container/aofe-backend/src/index.js
+
+database/*-db/*
