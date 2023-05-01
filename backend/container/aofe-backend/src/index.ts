@@ -12,6 +12,8 @@ import { User, userSchema } from "./database/user/userSchema.js";
 import { userRouter } from "./routes/user/user.router.js";
 import { status } from "./index.service.js";
 import { populateItemsCollection } from "./database/item/itemBootstrap.js";
+import { populateNpcCollection } from "./database/npc/npcBootstrap.js";
+import { itemRouter } from "./routes/item/item.router.js";
 
 dotenv.config();
 
@@ -72,13 +74,15 @@ app.use((req: any, res: any, next: any) => {
 });
 
 app.use("/api/users", userRouter);
+app.use("/api/item", itemRouter);
 
 app.use("/status", status);
 
-app.use("", express.static('public'));
+app.use("", express.static("public"));
 
 app.listen(80, () => {
   ensureAdminExists();
   populateItemsCollection();
+  populateNpcCollection();
   console.log("Server is running on http://localhost:80");
 });

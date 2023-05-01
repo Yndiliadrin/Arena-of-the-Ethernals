@@ -5,6 +5,7 @@ export interface IItem {
   slot: string;
   defense: number;
   damage: number;
+  rarity: number;
 }
 
 export const itemSchema = new Schema<IItem>({
@@ -26,6 +27,11 @@ export const itemSchema = new Schema<IItem>({
     type: Number,
     required: true,
     default: 0,
+  },
+  rarity: {
+    type: Number,
+    required: true,
+    default: 1,
   },
 });
 
