@@ -1,0 +1,24 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  rootUrl: string = 'api/users';
+
+  constructor(private router: Router, private http: HttpClient) {}
+
+  login(loginData: { username: string; password: string }) {
+    return this.http.post(`${this.rootUrl}/login`, loginData);
+  }
+
+  logout() {
+    return this.http.post(
+      `${this.rootUrl}/logout`,
+      {},
+      { withCredentials: true }
+    );
+  }
+}
