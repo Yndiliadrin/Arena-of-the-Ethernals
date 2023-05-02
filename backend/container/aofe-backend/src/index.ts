@@ -14,6 +14,7 @@ import { status } from "./index.service.js";
 import { populateItemsCollection } from "./database/item/itemBootstrap.js";
 import { populateNpcCollection } from "./database/npc/npcBootstrap.js";
 import { itemRouter } from "./routes/item/item.router.js";
+import { arenaRouter } from "./routes/arena/arena.router.js";
 
 dotenv.config();
 
@@ -75,6 +76,7 @@ app.use((req: any, res: any, next: any) => {
 
 app.use("/api/users", userRouter);
 app.use("/api/item", itemRouter);
+app.use("/api/arena", arenaRouter);
 
 app.use("/status", status);
 
