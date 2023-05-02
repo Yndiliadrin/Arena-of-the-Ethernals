@@ -59,8 +59,6 @@ services:
         aliases:
           - mongo
           - db
-    volumes:
-      - ./database/prod-db:/data/db
     restart: on-failure
 
 
