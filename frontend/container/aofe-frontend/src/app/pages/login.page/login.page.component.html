@@ -1,21 +1,27 @@
-<mat-card id="form-container">
-  <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
-      <mat-form-field>
-        <mat-label>Username</mat-label>
-        <input matInput type="text" name="username" placeholder="username" required formControlName="username" autocomplete="off">
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="*********" required formControlName="password">
-        <mat-icon matSuffix (click)="hide = !hide" id="visibility-btn">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </mat-form-field>
-      <br>
-      <button mat-raised-button matRipple matRippleColor="#80bee80F" appOnHover type="submit" [disabled]="form.invalid" id="login-btn">Login</button>
-    </form>
-  </mat-card-content>
-</mat-card>
+
+<div class="animated-background">
+  <div id="stars"></div>
+  <div id="stars2"></div>
+  <div id="stars3"></div>
+  <mat-card id="form-container">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput type="text" name="username" placeholder="username" required formControlName="username" autocomplete="off">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="*********" required formControlName="password">
+          <mat-icon matSuffix (click)="hide = !hide" id="visibility-btn">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button matRipple matRippleColor="#80bee80F" appOnHover type="submit" [disabled]="form.invalid" id="login-btn">Login</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
