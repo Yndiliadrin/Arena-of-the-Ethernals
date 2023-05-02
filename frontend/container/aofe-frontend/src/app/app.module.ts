@@ -11,6 +11,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
+import { LoginPageModule } from './pages/login.page/login.page.module';
+import { RegisztPageModule } from './pages/regiszt.page/regiszt.page.module';
+import { IndexPageModule } from './pages/index.page/index.page.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     HttpClientModule,
 
-    FormsModule,
-    ReactiveFormsModule,
-
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatCheckboxModule
+    LoginPageModule,
+    RegisztPageModule,
+    IndexPageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
