@@ -13,10 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'index',
-    loadChildren: () =>
-      import('./pages/index.page/index.page.module').then(
-        (m) => m.IndexPageModule
-      ),
+    component: IndexPageComponent
   },
   {
     path: 'login',
