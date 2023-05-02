@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisztPageComponent } from './pages/regiszt.page/regiszt.page.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginPageComponent } from './pages/login.page/login.page.component';
+import { IndexPageComponent } from './pages/index.page/index.page.component';
 
 const routes: Routes = [
   {
@@ -11,7 +12,7 @@ const routes: Routes = [
     redirectTo: 'login',
   },
   {
-    path: '',
+    path: 'index',
     loadChildren: () =>
       import('./pages/index.page/index.page.module').then(
         (m) => m.IndexPageModule
