@@ -1,0 +1,32 @@
+import { IItem, Item } from "../../database/item/itemSchema.js";
+
+export const getItemList = async (req, res) => {
+  try {
+    const items: Array<IItem> = await Item.find({}, { __v: 0, rarity: 0 });
+    return res.status(200).json(items);
+  } catch (error) {
+    console.error(error);
+    return res.status(200).json([]);
+  }
+};
+
+/**
+ * Returns a random item according to a generated random rarity
+ * @param req
+ * @param res
+ * @returns
+ */
+export const getRandomFromDatabase = async (req, res) => {
+  try {
+    const rarity = Math.floor(Math.random() * (15 - 1) + 1);
+    const items: Array<IItem> = await Item.find(
+      { rarity: { $lte: rarity } },
+      { __v: 0 }
+    );
+    return res
+      .status(200)
+      .json(items[Math.floor(Math.random() * items.length)]);
+  } catch (error) {
+    return res.status(200).json({});
+  }
+};
