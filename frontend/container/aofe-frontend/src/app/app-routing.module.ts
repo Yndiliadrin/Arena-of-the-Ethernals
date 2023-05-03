@@ -13,7 +13,8 @@ const routes: Routes = [
   },
   {
     path: 'index',
-    component: IndexPageComponent
+    component: IndexPageComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
