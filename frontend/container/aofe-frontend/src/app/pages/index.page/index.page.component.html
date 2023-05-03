@@ -3,6 +3,7 @@
     <mat-drawer #drawer class="sidenav" mode="over">
       <p>Auto-resizing sidenav</p>
 
+      <button mat-button (click)="openSettingsDialog()" *ngIf="isAdmin">Dashboard</button>
       <button mat-button (click)="openSettingsDialog()">Settings</button>
       <button mat-button color="warn" (click)="logout()">Logout</button>
     </mat-drawer>

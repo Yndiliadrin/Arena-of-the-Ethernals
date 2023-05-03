@@ -9,10 +9,11 @@ import { SettingsComponent } from 'src/app/components/settings/settings.componen
   styleUrls: ['./index.page.component.scss'],
 })
 export class IndexPageComponent implements OnInit {
+  isAdmin: boolean = false;
   constructor(public dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
-
+    this.isAdmin = JSON.parse(localStorage.getItem("userObject") || "").accessLevel === 3;
   }
 
   openSettingsDialog(): void {
