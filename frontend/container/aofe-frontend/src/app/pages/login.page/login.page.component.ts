@@ -21,6 +21,7 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('user')) {
+      localStorage.removeItem("userObject");
       localStorage.removeItem('user');
       this.authService.logout().subscribe(
         (res) => {
@@ -34,10 +35,15 @@ export class LoginPageComponent implements OnInit {
   onSubmit(): void {
     this.authService.login(this.form.value).subscribe(
       (res) => {
-        console.log(res);
+        localStorage.setItem("userObject", JSON.stringify(res));
         localStorage.setItem('user', this.form.get('username')?.value);
+        this.router.navigate(["/index"]);
       },
       (err) => console.log(err)
     );
+  }
+
+  navigateToRegiszt() {
+    this.router.navigate(["/regiszt"])
   }
 }
