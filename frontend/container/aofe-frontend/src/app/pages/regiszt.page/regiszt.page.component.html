@@ -8,6 +8,11 @@
     </mat-card-header>
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
+          <mat-chip-option *ngFor="let chip of warnings" highlighted color="warn">
+            {{chip}}
+          </mat-chip-option>
+        </mat-chip-listbox>
         <mat-form-field>
           <mat-label>Username</mat-label>
           <input matInput type="text" name="username" placeholder="username" required formControlName="username" autocomplete="off">
@@ -15,14 +20,13 @@
         <br>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="*********" required formControlName="password">
+          <input matInput [type]="hide ? 'password' : 'text'" name="password"  (change)="checkPasswordfields()" placeholder="*********" required formControlName="password">
           <mat-icon matSuffix (click)="hide = !hide" id="visibility-btn">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
         <br>
         <mat-form-field>
           <mat-label>Password Again</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="*********" required formControlName="passwordAgain">
-          <mat-icon matSuffix (click)="hide = !hide" id="visibility-btn">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput type="password" name="passwordAgain" (change)="checkPasswordfields()" placeholder="*********" required formControlName="passwordAgain">
         </mat-form-field>
         <button mat-raised-button matRipple matRippleColor="#80bee80F" appOnHover type="submit"
         [disabled]="form.invalid || form.value.password !== form.value.passwordAgain" id="login-btn">Registration</button>
