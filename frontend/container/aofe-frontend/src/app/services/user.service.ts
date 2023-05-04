@@ -21,14 +21,14 @@ export class UserService {
   }
 
   getUserCharacters(): Observable<
-    Array<{ username: string; character: Character }>
+    Array<{ username: string; character: Character; _id: string }>
   > {
-    return this.http.get<Array<{ username: string; character: Character }>>(
-      this.rootUrl
-    );
+    return this.http.get<
+      Array<{ username: string; character: Character; _id: string }>
+    >(this.rootUrl);
   }
 
-  getNpcCharacters(): Observable<Array<Npc>>{
-    return this.http.get<Array<Npc>>("api/npc");
+  getNpcCharacters(): Observable<Array<Npc>> {
+    return this.http.get<Array<Npc>>('api/npc');
   }
 }
