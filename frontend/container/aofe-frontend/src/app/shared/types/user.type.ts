@@ -11,13 +11,14 @@ export type Character = {
   strength: number;
   dexterity: number;
   intelligence: number;
-  equipment: Item;
-  inventory: Item;
+  equipment: Array<Item>;
+  inventory: Array<Item>;
   level: number;
   exp: number;
 };
 
 export type User = {
+  _id: string;
   username: string;
   accessLevel: number;
   character: Character;

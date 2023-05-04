@@ -43,7 +43,7 @@ export const updateUser = async (req, res) => {
     const updatedUser = await User.find({ _id: tmp._id }, {__v: 0, "character.__v":0})
       .populate("character.equipment")
       .populate("character.inventory");
-    res.json(updatedUser);
+    res.json(updatedUser[0]);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message });

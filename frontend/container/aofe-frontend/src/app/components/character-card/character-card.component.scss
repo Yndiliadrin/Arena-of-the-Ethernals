@@ -1,0 +1,40 @@
+*:not(mat-icon) {
+  font-family: "MedievalSharp", "Franklin Gothic Medium", "Arial Narrow", Arial,
+    sans-serif;
+}
+
+#character-card {
+  margin: auto;
+
+  width: 30vw;
+  height: 50vh;
+
+  overflow-y: scroll;
+
+  &-header {
+    width: 100%;
+    display: block;
+
+    .mat-h1 {
+      font-family: "MedievalSharp";
+    }
+  }
+
+  &-level {
+    width: 100%;
+    display: block;
+  }
+
+  &-content {
+    .property-list {
+      .number {
+        display: inline;
+        position: absolute;
+        right: 0.5vw;
+      }
+      &-active{
+        cursor: pointer;
+      }
+    }
+  }
+}

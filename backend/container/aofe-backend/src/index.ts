@@ -41,6 +41,7 @@ passport.use(
   new localStrategy.Strategy(function (username, password, done) {
     User.findOne({ username: username })
       .populate("character.equipment")
+      .populate("character.inventory")
       .then((user: any) => {
         if (!user) return done("Nincs ilyen felhasználónév", null);
         user.comparePasswords(password, function (error: any, isMatch: any) {
