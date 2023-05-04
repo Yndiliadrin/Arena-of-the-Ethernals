@@ -18,15 +18,23 @@ export const getItemList = async (req, res) => {
  */
 export const getRandomFromDatabase = async (req, res) => {
   try {
+    const loot = await generateRandomLoot();
+    return res.status(200).json(loot);
+  } catch (error) {
+    return res.status(200).json({});
+  }
+};
+
+export const generateRandomLoot = async () => {
+  try {
     const rarity = Math.floor(Math.random() * (15 - 1) + 1);
     const items: Array<IItem> = await Item.find(
       { rarity: { $lte: rarity } },
       { __v: 0 }
     );
-    return res
-      .status(200)
-      .json(items[Math.floor(Math.random() * items.length)]);
+    return items[Math.floor(Math.random() * items.length)];
   } catch (error) {
-    return res.status(200).json({});
+    console.log(error);
+    throw new Error();
   }
 };
