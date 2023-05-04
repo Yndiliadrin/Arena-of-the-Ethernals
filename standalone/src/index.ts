@@ -16,12 +16,6 @@ import { populateNpcCollection } from "./database/npc/npcBootstrap.js";
 import { itemRouter } from "./routes/item/item.router.js";
 import { arenaRouter } from "./routes/arena/arena.router.js";
 
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 dotenv.config();
 
 const app = express();
@@ -30,17 +24,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// mongoose.connect("mongodb://database", {
-//   user: process.env["DATABASE_USER_USERNAME"],
-//   pass: process.env["DATABASE_USER_PASSWORD"],
-//   dbName: "Arena",
-// });
+mongoose.connect(
+  "",
+  {
+    dbName: "Arena",
+  }
+);
 
-// export const db = mongoose.connection;
-// db.on("error", console.error.bind(console, "MongoDB connection error:"));
-// db.once("open", () => {
-//   console.log("Connected to MongoDB successfully");
-// });
+export const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB successfully");
+});
 
 passport.use(
   "local",
@@ -70,7 +65,7 @@ passport.deserializeUser(function (user, done) {
 });
 
 app.use(
-  expressSession({ secret: "asdasdasd", resave: true })
+  expressSession({ secret: 'process.env["SESSION_SECRET"]', resave: true })
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -86,12 +81,12 @@ app.use("/api/arena", arenaRouter);
 
 app.use("/status", status);
 
-app.use("",express.static("static"));
+app.use("", express.static("static"));
+app.use("*", express.static("static"))
 
 app.listen(3000, () => {
-  // ensureAdminExists();
-  // populateItemsCollection();
-  // populateNpcCollection();
-  
+  ensureAdminExists();
+  populateItemsCollection();
+  populateNpcCollection();
   console.log("Server is running on http://localhost:3000");
 });
