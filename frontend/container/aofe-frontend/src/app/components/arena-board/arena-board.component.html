@@ -8,7 +8,7 @@
       <mat-list>
         <span mat-subheader>Users</span>
         <mat-list-item matRipple *ngFor="let c of userCharacterList"
-          class="arena-card-content-user-list-container-element">
+          class="arena-card-content-user-list-container-element" (click)="openFightDialog(c)">
           <span matListItemTitle>{{c.username}}</span>
           <span matListItemLine>LvL {{c.character.level}}.</span>
         </mat-list-item>
@@ -19,7 +19,7 @@
       <mat-list>
         <span mat-subheader>NPC's</span>
         <mat-list-item matRipple *ngFor="let c of npcCharacterList"
-          class="arena-card-content-npc-list-container-element">
+          class="arena-card-content-npc-list-container-element" (click)="openFightDialog(c)">
           <span matListItemTitle>{{c.name}}</span>
           <span matListItemLine>LvL {{c.level}}.</span>
         </mat-list-item>

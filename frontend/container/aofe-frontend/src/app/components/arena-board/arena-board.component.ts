@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { Character, Npc } from 'src/app/shared/types/user.type';
+import { FightReportComponent } from '../fight-report/fight-report.component';
 
 @Component({
   selector: 'app-arena-board',
@@ -8,10 +10,14 @@ import { Character, Npc } from 'src/app/shared/types/user.type';
   styleUrls: ['./arena-board.component.scss'],
 })
 export class ArenaBoardComponent implements OnInit {
-  userCharacterList: Array<{ username: string; character: Character }> = [];
+  userCharacterList: Array<{
+    username: string;
+    character: Character;
+    _id: string;
+  }> = [];
   npcCharacterList: Array<Npc> = [];
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.userService
@@ -21,5 +27,15 @@ export class ArenaBoardComponent implements OnInit {
     this.userService
       .getNpcCharacters()
       .subscribe((data) => (this.npcCharacterList = data));
+  }
+
+  openFightDialog(
+    c: { username: string; character: Character; _id: string } | Npc
+  ): void {
+    const dialogRef = this.dialog.open(FightReportComponent, { data: c });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }
