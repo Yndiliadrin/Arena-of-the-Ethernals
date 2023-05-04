@@ -8,18 +8,22 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRippleModule } from '@angular/material/core';
+import { FightReportModule } from '../fight-report/fight-report.module';
 
 @NgModule({
   declarations: [ArenaBoardComponent],
   imports: [
     CommonModule,
+
     MatCardModule,
     MatProgressBarModule,
     MatChipsModule,
     MatGridListModule,
     MatListModule,
     MatDividerModule,
-    MatRippleModule
+    MatRippleModule,
+
+    FightReportModule
   ],
   exports: [ArenaBoardComponent],
 })
