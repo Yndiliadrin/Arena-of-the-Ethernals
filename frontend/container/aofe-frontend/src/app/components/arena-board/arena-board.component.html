@@ -1,0 +1,30 @@
+<mat-card class="arena-card">
+  <mat-card-header class="arena-card-header">
+    <mat-card-title>Arena</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="arena-card-content">
+    <div class="arena-card-content-user-list-container">
+      <mat-list>
+        <span mat-subheader>Users</span>
+        <mat-list-item matRipple *ngFor="let c of userCharacterList"
+          class="arena-card-content-user-list-container-element">
+          <span matListItemTitle>{{c.username}}</span>
+          <span matListItemLine>LvL {{c.character.level}}.</span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="arena-card-content-npc-list-container">
+      <mat-list>
+        <span mat-subheader>NPC's</span>
+        <mat-list-item matRipple *ngFor="let c of npcCharacterList"
+          class="arena-card-content-npc-list-container-element">
+          <span matListItemTitle>{{c.name}}</span>
+          <span matListItemLine>LvL {{c.level}}.</span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+  </mat-card-content>
+</mat-card>

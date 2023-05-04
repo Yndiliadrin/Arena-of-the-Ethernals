@@ -1,0 +1,26 @@
+*:not(mat-icon) {
+  font-family: "MedievalSharp", "Franklin Gothic Medium", "Arial Narrow", Arial,
+    sans-serif;
+}
+
+.arena-card {
+  margin: auto;
+
+  width: 30vw;
+  height: 50vh;
+
+  overflow-y: scroll;
+
+  &-content {
+    &-user,
+    &-npc {
+      &-list-container {
+        height: 20vh;
+        overflow-y: scroll;
+        &-element {
+          cursor: pointer !important;
+        }
+      }
+    }
+  }
+}
