@@ -61,7 +61,6 @@ export async function MGetUsers(req, res, next) {
     user = await User.find(
       {},
       {
-        _id: 0,
         __v: 0,
         password: 0,
         salt: 0,

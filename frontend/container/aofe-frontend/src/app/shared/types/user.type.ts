@@ -1,3 +1,7 @@
+export type Npc = Character & {
+  name: string;
+}
+
 export type Item = {
   name: string;
   slot: string;

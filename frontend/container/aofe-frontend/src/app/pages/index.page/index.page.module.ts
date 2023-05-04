@@ -6,6 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SettingsModule } from 'src/app/components/settings/settings.module';
+import { CharacterCardModule } from 'src/app/components/character-card/character-card.module';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { ArenaBoardModule } from 'src/app/components/arena-board/arena-board.module';
+
 @NgModule({
   declarations: [IndexPageComponent],
   imports: [
@@ -15,8 +19,11 @@ import { SettingsModule } from 'src/app/components/settings/settings.module';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatGridListModule,
 
-    SettingsModule
+    SettingsModule,
+    CharacterCardModule,
+    ArenaBoardModule
   ],
 })
 export class IndexPageModule {}

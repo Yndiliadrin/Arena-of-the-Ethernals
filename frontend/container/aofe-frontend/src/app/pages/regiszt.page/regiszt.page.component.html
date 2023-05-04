@@ -9,7 +9,7 @@
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" [formGroup]="form">
         <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-          <mat-chip-option *ngFor="let chip of warnings" highlighted color="warn">
+          <mat-chip-option *ngFor="let chip of warnings" highlighted color="warn" style="pointer-events: none;">
             {{chip}}
           </mat-chip-option>
         </mat-chip-listbox>
