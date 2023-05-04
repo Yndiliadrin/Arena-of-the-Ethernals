@@ -4,6 +4,7 @@ import { FightReportComponent } from './fight-report.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -16,7 +17,8 @@ import { MatListModule } from '@angular/material/list';
 
     MatDialogModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   exports: [FightReportComponent]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { Character, Npc } from 'src/app/shared/types/user.type';
@@ -10,6 +10,7 @@ import { FightReportComponent } from '../fight-report/fight-report.component';
   styleUrls: ['./arena-board.component.scss'],
 })
 export class ArenaBoardComponent implements OnInit {
+  @Output() figthReportCallback = new EventEmitter<Object>();
   userCharacterList: Array<{
     username: string;
     character: Character;
@@ -32,10 +33,13 @@ export class ArenaBoardComponent implements OnInit {
   openFightDialog(
     c: { username: string; character: Character; _id: string } | Npc
   ): void {
-    const dialogRef = this.dialog.open(FightReportComponent, { data: c });
+    const dialogRef = this.dialog.open(FightReportComponent, {
+      data: c,
+      disableClose: true,
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      this.figthReportCallback.next(result);
     });
   }
 }

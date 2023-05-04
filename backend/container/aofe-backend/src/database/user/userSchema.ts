@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 export interface ICharacter {
-  _id: number;
+  _id: string;
   hp: number;
   strength: number;
   dexterity: number;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Character, Item, User } from 'src/app/shared/types/user.type';
 
@@ -8,6 +8,7 @@ import { Character, Item, User } from 'src/app/shared/types/user.type';
   styleUrls: ['./character-card.component.scss'],
 })
 export class CharacterCardComponent implements OnInit {
+  @Input()
   character: Character | null = null;
   username: string = '';
   private timeoutId: any;
@@ -20,7 +21,6 @@ export class CharacterCardComponent implements OnInit {
   ngOnInit(): void {
     const userObject = localStorage.getItem('userObject');
     if (userObject) {
-      this.character = JSON.parse(userObject || '{}')['character'];
       this.username = JSON.parse(userObject || '{}')['username'];
 
       this.skillPoints = this.calculateFreeSkillPoints();

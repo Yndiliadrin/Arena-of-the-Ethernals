@@ -1,4 +1,5 @@
 export type Npc = Character & {
+  _id: string;
   name: string;
 }
 
