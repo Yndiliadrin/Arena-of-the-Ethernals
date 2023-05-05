@@ -9,6 +9,7 @@ import { SettingsModule } from 'src/app/components/settings/settings.module';
 import { CharacterCardModule } from 'src/app/components/character-card/character-card.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ArenaBoardModule } from 'src/app/components/arena-board/arena-board.module';
+import { DashboardModule } from 'src/app/components/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [IndexPageComponent],
@@ -23,7 +24,8 @@ import { ArenaBoardModule } from 'src/app/components/arena-board/arena-board.mod
 
     SettingsModule,
     CharacterCardModule,
-    ArenaBoardModule
+    ArenaBoardModule,
+    DashboardModule
   ],
 })
 export class IndexPageModule {}
