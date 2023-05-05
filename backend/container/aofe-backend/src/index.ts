@@ -84,6 +84,7 @@ app.use("/api/arena", arenaRouter);
 app.use("/status", status);
 
 app.use("", express.static("public"));
+app.use("*", express.static("static"));
 
 app.listen(80, () => {
   ensureAdminExists();
