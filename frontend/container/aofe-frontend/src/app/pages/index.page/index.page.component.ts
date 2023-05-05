@@ -59,6 +59,18 @@ export class IndexPageComponent implements OnInit {
     }
   }
 
+  selectPropertyCallback(key: string): void {
+    if (this.character && this.skillPoints > 0) {
+      clearTimeout(this.timeoutId);
+      (this.character[
+        key as keyof typeof this.character
+      ] as unknown as number) += 1;
+      this.skillPoints -= 1;
+      this.saveCharacter();
+    }
+  }
+
+
   openSettingsDialog(): void {
     const dialogRef = this.dialog.open(SettingsComponent);
 
@@ -98,5 +110,17 @@ export class IndexPageComponent implements OnInit {
         return skillpointsBasedOnTheLevel - spentSkillpointsOnTopOfTheBase;
     }
     return 0;
+  }
+
+  private saveCharacter(): void {
+    this.timeoutId = setTimeout(() => {
+      let user: User = JSON.parse(localStorage.getItem('userObject') || '{}');
+      if (this.character) user.character = this.character;
+
+      this.userService.updateCharacter(user).subscribe((newUser: User) => {
+        localStorage.setItem('userObject', JSON.stringify(newUser));
+        this.character = newUser.character;
+      });
+    }, 2000);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Character, Item, User } from 'src/app/shared/types/user.type';
 
@@ -13,6 +13,7 @@ export class CharacterCardComponent implements OnInit {
   username: string = '';
   private timeoutId: any;
   @Input() skillPoints: number = 0;
+  @Output() selectPropertyCallback = new EventEmitter<string>();
 
   propertyList: Array<string> = ['hp', 'strength', 'dexterity', 'intelligence'];
 
@@ -34,14 +35,7 @@ export class CharacterCardComponent implements OnInit {
   }
 
   selectProperty(key: string): void {
-    if (this.character && this.skillPoints > 0) {
-      clearTimeout(this.timeoutId);
-      (this.character[
-        key as keyof typeof this.character
-      ] as unknown as number) += 1;
-      this.skillPoints -= 1;
-      this.saveCharacter();
-    }
+    this.selectPropertyCallback.next(key);
   }
 
   getLevelProgress(): number {
@@ -74,7 +68,7 @@ export class CharacterCardComponent implements OnInit {
     }
   }
 
-  saveCharacter(): void {
+  private saveCharacter(): void {
     this.timeoutId = setTimeout(() => {
       let user: User = JSON.parse(localStorage.getItem('userObject') || '{}');
       if (this.character) user.character = this.character;
