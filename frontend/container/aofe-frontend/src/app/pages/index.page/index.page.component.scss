@@ -3,6 +3,15 @@
     sans-serif;
 }
 
+.sidenav {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    width: 100%;
+  }
+}
+
 #content {
   height: 100vh;
 

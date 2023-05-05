@@ -1,15 +1,19 @@
 <main id="content">
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
     <mat-drawer #drawer class="sidenav" mode="over">
-      <p>Auto-resizing sidenav</p>
-
+      <button mat-button (click)="openNpcDialog()" *ngIf="isAdmin">NPCs</button>
+      <br>
+      <button mat-button (click)="openItemsDialog()" *ngIf="isAdmin">Items</button>
+      <br>
       <button mat-button (click)="openDashboardDialog()" *ngIf="isAdmin">Dashboard</button>
+      <br>
       <button mat-button (click)="openSettingsDialog()">Settings</button>
+      <br>
       <button mat-button color="warn" (click)="logout()">Logout</button>
     </mat-drawer>
 
     <div class="example-sidenav-content">
-      <button type="button" mat-mini-fab (click)="drawer.toggle()">
+      <button type="button" mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
     </div>

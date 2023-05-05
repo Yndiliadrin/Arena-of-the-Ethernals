@@ -86,6 +86,14 @@ export class IndexPageComponent implements OnInit {
     });
   }
 
+  openItemsDialog(): void {
+
+  }
+
+  openNpcDialog(): void {
+
+  }
+
   openDashboardDialog(): void {
     const dialogRef = this.dialog.open(DashboardComponent);
 
