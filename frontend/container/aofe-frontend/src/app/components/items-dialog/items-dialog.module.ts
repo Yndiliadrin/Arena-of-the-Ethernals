@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ItemFormDialogModule } from '../item-form-dialog/item-form-dialog.module';
 
 
 
@@ -15,6 +16,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   imports: [
     CommonModule,
+
+    ItemFormDialogModule,
 
     MatDialogModule,
     MatListModule,
