@@ -5,8 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [CharacterCardComponent],
@@ -17,7 +18,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatChipsModule,
     MatGridListModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule,
   ],
   exports: [CharacterCardComponent],
 })

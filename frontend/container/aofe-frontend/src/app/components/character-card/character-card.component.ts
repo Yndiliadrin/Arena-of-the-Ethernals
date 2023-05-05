@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/user.service';
 import { Character, Item, User } from 'src/app/shared/types/user.type';
 
@@ -17,7 +18,7 @@ export class CharacterCardComponent implements OnInit {
 
   propertyList: Array<string> = ['hp', 'strength', 'dexterity', 'intelligence'];
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private _snackBar: MatSnackBar) {}
 
   getDefenseScore = () =>
     this.character?.equipment
@@ -55,6 +56,8 @@ export class CharacterCardComponent implements OnInit {
     return 0;
   }
 
+  // eye sore
+  // #region
   equipItem(item: Item): void {
     if (this.character) {
       const mappedEquipmentBySlot = this.character.equipment.map((e) => e.slot);
@@ -106,6 +109,7 @@ export class CharacterCardComponent implements OnInit {
       this.swapItems(item);
     }
   }
+  // #endregion
 
   unEquipItem(item: Item): void {
     if (this.character) {
@@ -114,6 +118,20 @@ export class CharacterCardComponent implements OnInit {
       if (index > -1) {
         this.character.equipment.splice(index, 1);
         this.character.inventory.push(item);
+        this.saveCharacter();
+      }
+    }
+  }
+
+  deleteItem(data: { event: any; item: Item }): void {
+    console.log(data.event);
+    data.event.preventDefault();
+    if (this.character) {
+      clearTimeout(this.timeoutId);
+      const index = this.character.inventory.indexOf(data.item, 0);
+      if (index > -1) {
+        this.character.inventory.splice(index, 1);
+        this._snackBar.open("Item deleted from the Inventory", "OK", {duration: 2000})
         this.saveCharacter();
       }
     }

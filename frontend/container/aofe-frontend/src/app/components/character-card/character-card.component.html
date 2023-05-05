@@ -37,8 +37,8 @@
           </mat-list>
           <mat-divider></mat-divider>
           <mat-list id="inventory">
-            <div mat-subheader class="my-list-header">Inventory</div>
-            <mat-list-item *ngFor="let item of character?.inventory" (click)="equipItem(item)">
+            <div mat-subheader class="my-list-header">Inventory [ {{character?.inventory?.length}} ]</div>
+            <mat-list-item *ngFor="let item of character?.inventory" (click)="equipItem(item)" (contextmenu)="deleteItem({event:$event, item: item})">
               <span matListItemTitle>{{item.name}}</span>
               <span matListItemLine>DMG: {{item.damage}}</span>
               <span>DEF: {{item.defense}}</span>
