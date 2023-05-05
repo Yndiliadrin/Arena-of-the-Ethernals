@@ -31,8 +31,6 @@ export class IndexPageComponent implements OnInit {
 
     this.isAdmin =
       JSON.parse(localStorage.getItem('userObject') || '').accessLevel === 3;
-
-    console.log(this.skillPoints);
   }
 
   fightCallback(report: any): void {
