@@ -12,7 +12,7 @@ export class CharacterCardComponent implements OnInit {
   character: Character | null = null;
   username: string = '';
   private timeoutId: any;
-  skillPoints: number = 0;
+  @Input() skillPoints: number = 0;
 
   propertyList: Array<string> = ['hp', 'strength', 'dexterity', 'intelligence'];
 
@@ -22,8 +22,6 @@ export class CharacterCardComponent implements OnInit {
     const userObject = localStorage.getItem('userObject');
     if (userObject) {
       this.username = JSON.parse(userObject || '{}')['username'];
-
-      this.skillPoints = this.calculateFreeSkillPoints();
     }
   }
 
@@ -86,26 +84,5 @@ export class CharacterCardComponent implements OnInit {
         this.character = newUser.character;
       });
     }, 2000);
-  }
-
-  /**
-   * We can calculate the free skill ponits amount, based on the level and the attributes
-   *
-   * The player gets 2 skillpoint every level, and starts with 13
-   */
-  private calculateFreeSkillPoints(): number {
-    if (this.character) {
-      const sumOfTheAttributes =
-        this.character.hp +
-        this.character.strength +
-        this.character.dexterity +
-        this.character.intelligence;
-      const skillpointsBasedOnTheLevel = this.character.level * 2;
-      const spentSkillpointsOnTopOfTheBase = sumOfTheAttributes - 13;
-
-      if (skillpointsBasedOnTheLevel > spentSkillpointsOnTopOfTheBase)
-        return skillpointsBasedOnTheLevel - spentSkillpointsOnTopOfTheBase;
-    }
-    return 0;
   }
 }

@@ -11,22 +11,28 @@ import { Character, User } from 'src/app/shared/types/user.type';
   styleUrls: ['./index.page.component.scss'],
 })
 export class IndexPageComponent implements OnInit {
-  character: Character | null = null;
-  isAdmin: boolean = false;
+  public character: Character | null = null;
+  public skillPoints: number = 0;
+  public isAdmin: boolean = false;
+  private timeoutId: any;
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private userService: UserService
   ) {}
-  private timeoutId: any;
 
   ngOnInit(): void {
     this.character = JSON.parse(localStorage.getItem('userObject') || '{}')[
       'character'
     ];
 
+    if (this.character) this.skillPoints = this.calculateFreeSkillPoints();
+
     this.isAdmin =
       JSON.parse(localStorage.getItem('userObject') || '').accessLevel === 3;
+
+    console.log(this.skillPoints);
   }
 
   fightCallback(report: any): void {
@@ -69,6 +75,28 @@ export class IndexPageComponent implements OnInit {
     if (this.character!.exp > (this.character!.level + 1) * 12) {
       this.character!.exp = 0;
       this.character!.level += 1;
+      this.skillPoints = this.calculateFreeSkillPoints();
     }
+  }
+
+  /**
+   * We can calculate the free skill ponits amount, based on the level and the attributes
+   *
+   * The player gets 2 skillpoint every level, and starts with 13
+   */
+  private calculateFreeSkillPoints(): number {
+    if (this.character) {
+      const sumOfTheAttributes =
+        this.character.hp +
+        this.character.strength +
+        this.character.dexterity +
+        this.character.intelligence;
+      const skillpointsBasedOnTheLevel = this.character.level * 2;
+      const spentSkillpointsOnTopOfTheBase = sumOfTheAttributes - 13;
+
+      if (skillpointsBasedOnTheLevel > spentSkillpointsOnTopOfTheBase)
+        return skillpointsBasedOnTheLevel - spentSkillpointsOnTopOfTheBase;
+    }
+    return 0;
   }
 }
