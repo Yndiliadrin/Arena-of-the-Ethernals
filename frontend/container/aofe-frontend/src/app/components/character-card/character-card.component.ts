@@ -19,8 +19,16 @@ export class CharacterCardComponent implements OnInit {
 
   constructor(private userService: UserService) {}
 
-  getDefenseScore = () => this.character?.equipment.filter(e=>e.defense>0).map(e=>e.defense).reduce((a,b)=>a+b,0);
-  getAttackScore = () => this.character?.equipment.filter(e=>e.damage>0).map(e=>e.damage).reduce((a,b)=>a+b,0);
+  getDefenseScore = () =>
+    this.character?.equipment
+      .filter((e) => e.defense > 0)
+      .map((e) => e.defense)
+      .reduce((a, b) => a + b, 0);
+  getAttackScore = () =>
+    this.character?.equipment
+      .filter((e) => e.damage > 0)
+      .map((e) => e.damage)
+      .reduce((a, b) => a + b, 0);
 
   ngOnInit(): void {
     const userObject = localStorage.getItem('userObject');
@@ -49,13 +57,53 @@ export class CharacterCardComponent implements OnInit {
 
   equipItem(item: Item): void {
     if (this.character) {
+      const mappedEquipmentBySlot = this.character.equipment.map((e) => e.slot);
+
       clearTimeout(this.timeoutId);
-      const index = this.character.inventory.indexOf(item, 0);
-      if (index > -1) {
-        this.character.inventory.splice(index, 1);
-        this.character.equipment.push(item);
-        this.saveCharacter();
+
+      // If there is no equiped item named as `item.name` AND the `item.slot` is "empty"
+      if (mappedEquipmentBySlot.includes(item.slot)) {
+        // If there is an item already equiped in the slot than we swap it to the
+        // new item.
+
+        const oldIndex = this.character.equipment
+          .map((e) => e.slot)
+          .indexOf(item.slot, 0);
+        this.character.inventory.push(this.character.equipment[oldIndex]);
+        this.character.equipment.splice(oldIndex, 1);
+      } else if (item.slot === 'twohanded') {
+        // If the new item is twohanded than we have to remove the main and offhand equipment
+
+        const mainIndex = mappedEquipmentBySlot.indexOf('main', 0);
+        const secondaryIndex = mappedEquipmentBySlot.indexOf('secondary', 0);
+
+        // removing items from hand
+        if (mainIndex > -1) {
+          this.character.inventory.push(this.character.equipment[mainIndex]);
+          this.character.equipment.splice(mainIndex, 1);
+        }
+        if (secondaryIndex > -1) {
+          this.character.inventory.push(
+            this.character.equipment[secondaryIndex]
+          );
+          this.character.equipment.splice(secondaryIndex, 1);
+        }
+      } else {
+        // If there is no other item equipped in the desired slot, but we will chech if there is other blocking items
+        // We can assume that this else branch will only handle the cases when the user wants to swap the twohanded items
+        // for a main or secondary
+
+        const twohandedIndex = mappedEquipmentBySlot.indexOf('twohanded', 0);
+
+        if (twohandedIndex > -1) {
+          this.character.inventory.push(
+            this.character.equipment[twohandedIndex]
+          );
+          this.character.equipment.splice(twohandedIndex, 1);
+        }
       }
+
+      this.swapItems(item);
     }
   }
 
@@ -81,5 +129,16 @@ export class CharacterCardComponent implements OnInit {
         this.character = newUser.character;
       });
     }, 2000);
+  }
+
+  private swapItems(item: Item): void {
+    if (this.character) {
+      const index = this.character.inventory.indexOf(item, 0);
+      if (index > -1) {
+        this.character.inventory.splice(index, 1);
+        this.character.equipment.push(item);
+        this.saveCharacter();
+      }
+    }
   }
 }
