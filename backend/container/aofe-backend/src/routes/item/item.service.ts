@@ -38,3 +38,26 @@ export const generateRandomLoot = async () => {
     throw new Error();
   }
 };
+
+export const createItem = async (req,res) => {
+  const item = new Item(req.body);
+  try {
+    await item.save();
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  } finally {
+    return res.status(200).json({success: true});
+  }
+}
+
+export const deleteItem = async (req, res) => {
+  try {
+    const result = await Item.deleteOne({ _id: req.params.id });
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  } finally {
+    return res.status(200).json({success: true});
+  }
+}
