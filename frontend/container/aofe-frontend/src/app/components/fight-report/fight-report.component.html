@@ -1,7 +1,22 @@
 <h1 mat-dialog-title>Fight for youre life!</h1>
 <div mat-dialog-content>
   <mat-spinner *ngIf="loading"></mat-spinner>
-
+  <section *ngIf="!loading" id="content-report">
+    <mat-list role="list" id="content-report-list">
+      <div mat-subheader>
+        <div class="user">User</div>
+        <div class="oponent">Oponent</div>
+      </div>
+      <mat-list-item role="listitem" *ngFor="let round of report">
+        <div>
+          <div class="user">{{evaulateRoundForUser(round)}}</div>
+          <div class="oponent">{{evaulateRoundForOponent(round)}}</div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+    <h2>{{report.at(-1)!.winner === me ? "Won" : "Defeat"}}</h2>
+    <h4 *ngIf="report.at(-1)!.winner === me">+ {{spoilsOfWar.exp}} XP</h4>
+  </section>
 </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="spoilsOfWar" cdkFocusInitial>Ok</button>

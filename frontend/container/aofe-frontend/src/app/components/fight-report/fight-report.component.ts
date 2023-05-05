@@ -13,7 +13,7 @@ export class FightReportComponent implements AfterViewInit {
   loading: boolean = true;
   report: Array<fightReport> = [];
   me: string = '';
-  spoilsOfWar = new Object();
+  spoilsOfWar: any = new Object();
 
   constructor(
     private fightService: FightService,
@@ -38,13 +38,35 @@ export class FightReportComponent implements AfterViewInit {
       });
   }
 
+
+  // Ez a két függvény is egy kibaszott szégyen
+  // #region
+  evaulateRoundForUser(round:fightReport): string {
+    if (round.atk !== this.me && round.winner !== this.me)
+      return `[ HIT! ] -${round.dmg} HP`;
+    else if (round.atk !== this.me && round.winner === this.me)
+      return `[ MISSED! ]`
+
+    return "";
+  }
+
+  evaulateRoundForOponent(round:fightReport): string {
+    if (round.atk !== this.oponent._id && round.winner !== this.oponent._id)
+      return `-${round.dmg} HP [ HIT! ]`;
+    else if (round.atk !== this.oponent._id && round.winner === this.oponent._id)
+      return `[ MISSED! ]`
+
+    return "";
+  }
+  // #endregion
+
   private evaulateMatch() {
     if (this.report.at(-1)!.winner === this.me) {
       this.spoilsOfWar = {
         exp:
           'name' in this.oponent
             ? this.oponent.exp
-            : this.oponent.character.exp,
+            : this.oponent.character.level * 10 + 5,
         loot: this.report[this.report.length - 1].loot,
       };
     }
