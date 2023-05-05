@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DashboardComponent } from 'src/app/components/dashboard/dashboard.component';
 import { SettingsComponent } from 'src/app/components/settings/settings.component';
 import { UserService } from 'src/app/services/user.service';
 import { Character, User } from 'src/app/shared/types/user.type';
@@ -83,6 +84,12 @@ export class IndexPageComponent implements OnInit {
         });
       }
     });
+  }
+
+  openDashboardDialog(): void {
+    const dialogRef = this.dialog.open(DashboardComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   logout(): void {
