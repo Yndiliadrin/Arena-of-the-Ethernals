@@ -2,7 +2,7 @@ import { IItem, Item } from "../../database/item/itemSchema.js";
 
 export const getItemList = async (req, res) => {
   try {
-    const items: Array<IItem> = await Item.find({}, { __v: 0, rarity: 0 });
+    const items: Array<IItem> = await Item.find({}, { __v: 0 });
     return res.status(200).json(items);
   } catch (error) {
     console.error(error);
@@ -39,7 +39,7 @@ export const generateRandomLoot = async () => {
   }
 };
 
-export const createItem = async (req,res) => {
+export const createItem = async (req, res) => {
   const item = new Item(req.body);
   try {
     await item.save();
@@ -47,17 +47,35 @@ export const createItem = async (req,res) => {
     console.error(error);
     return res.status(500);
   } finally {
-    return res.status(200).json({success: true});
+    return res.status(200).json({ success: true });
   }
-}
+};
 
 export const deleteItem = async (req, res) => {
   try {
-    const result = await Item.deleteOne({ _id: req.params.id });
+    await Item.deleteOne({ _id: req.params.id });
   } catch (error) {
     console.error(error);
     return res.status(500);
   } finally {
-    return res.status(200).json({success: true});
+    return res.status(200).json({ success: true });
   }
-}
+};
+
+export const updateItem = async (req, res) => {
+  try {
+    let item = await Item.findById(req.body._id);
+    
+    item.name = req.body.name;
+    item.damage = req.body.damage;
+    item.defense = req.body.defense;
+    item.rarity = req.body.rarity;
+
+    await item.save();
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  } finally {
+    return res.status(200).json({ success: true });
+  }
+};

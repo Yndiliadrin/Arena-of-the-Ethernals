@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/shared/types/user.type';
+import { ItemFormDialogComponent } from '../item-form-dialog/item-form-dialog.component';
 
 @Component({
   selector: 'app-items-dialog',
@@ -12,7 +14,7 @@ export class ItemsDialogComponent implements OnInit {
   loading: boolean = true;
   isAdmin = false;
 
-  constructor(private itemService: ItemsService) {}
+  constructor(private itemService: ItemsService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.fetchData();
@@ -27,9 +29,24 @@ export class ItemsDialogComponent implements OnInit {
     });
   }
 
-  editItem(item: Item): void {}
+  editItem(item: Item | null = null): void {
+    const dialogRef = this.dialog.open(ItemFormDialogComponent, {
+      data: item,
+      disableClose: true,
+    });
 
-  openItemFormDialog(): void {}
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.edit) {
+        this.itemService.updateItem({_id: item?._id, ...data.data}).subscribe((resp) => {
+          resp && this.fetchData();
+        });
+      } else {
+        this.itemService.createItem(data.data).subscribe((resp) => {
+          resp && this.fetchData();
+        });
+      }
+    });
+  }
 
   private fetchData() {
     this.loading = true;

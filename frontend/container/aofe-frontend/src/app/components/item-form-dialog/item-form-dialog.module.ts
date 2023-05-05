@@ -6,13 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-
-
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [
-    ItemFormDialogComponent
-  ],
+  declarations: [ItemFormDialogComponent],
   imports: [
     CommonModule,
 
@@ -22,9 +19,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatDialogModule
-
+    MatDialogModule,
+    MatSelectModule,
   ],
-  exports: [ItemFormDialogComponent]
+  exports: [ItemFormDialogComponent],
 })
-export class ItemFormDialogModule { }
+export class ItemFormDialogModule {}

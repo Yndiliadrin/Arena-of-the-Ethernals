@@ -20,7 +20,7 @@
   </section>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="openItemFormDialog()" *ngIf="isAdmin">
+  <button mat-button (click)="editItem()" *ngIf="isAdmin">
     <mat-icon>add</mat-icon>New
   </button>
   <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>

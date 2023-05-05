@@ -15,7 +15,15 @@ export class ItemsService {
     return this.http.get<Array<Item>>(this.rootUrl);
   }
 
-  deleteItem(_id: string): Observable<{success: boolean}> {
-    return this.http.delete<{success: boolean}>(`${this.rootUrl}/${_id}`);
+  createItem(item: Item): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(this.rootUrl, item);
+  }
+
+  updateItem(item: Item): Observable<{ success: boolean }> {
+    return this.http.patch<{ success: boolean }>(this.rootUrl, item);
+  }
+
+  deleteItem(_id: string): Observable<{ success: boolean }> {
+    return this.http.delete<{ success: boolean }>(`${this.rootUrl}/${_id}`);
   }
 }
