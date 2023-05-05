@@ -11,6 +11,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { ArenaBoardModule } from 'src/app/components/arena-board/arena-board.module';
 import { DashboardModule } from 'src/app/components/dashboard/dashboard.module';
 import { ItemsDialogModule } from 'src/app/components/items-dialog/items-dialog.module';
+import { NpcDialogModule } from 'src/app/components/npc-dialog/npc-dialog.module';
 
 @NgModule({
   declarations: [IndexPageComponent],
@@ -27,7 +28,8 @@ import { ItemsDialogModule } from 'src/app/components/items-dialog/items-dialog.
     CharacterCardModule,
     ArenaBoardModule,
     DashboardModule,
-    ItemsDialogModule
+    ItemsDialogModule,
+    NpcDialogModule
   ],
 })
 export class IndexPageModule {}
