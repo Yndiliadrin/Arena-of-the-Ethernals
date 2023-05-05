@@ -11,14 +11,17 @@ import { Character, Item, User } from 'src/app/shared/types/user.type';
 export class CharacterCardComponent implements OnInit {
   @Input()
   character: Character | null = null;
-  username: string = '';
   private timeoutId: any;
   @Input() skillPoints: number = 0;
+  @Input() username: string = '';
   @Output() selectPropertyCallback = new EventEmitter<string>();
 
   propertyList: Array<string> = ['hp', 'strength', 'dexterity', 'intelligence'];
 
-  constructor(private userService: UserService, private _snackBar: MatSnackBar) {}
+  constructor(
+    private userService: UserService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   getDefenseScore = () =>
     this.character?.equipment
@@ -31,12 +34,7 @@ export class CharacterCardComponent implements OnInit {
       .map((e) => e.damage)
       .reduce((a, b) => a + b, 0);
 
-  ngOnInit(): void {
-    const userObject = localStorage.getItem('userObject');
-    if (userObject) {
-      this.username = JSON.parse(userObject || '{}')['username'];
-    }
-  }
+  ngOnInit(): void {}
 
   getProperty(key: string): number {
     if (this.character)
@@ -131,7 +129,9 @@ export class CharacterCardComponent implements OnInit {
       const index = this.character.inventory.indexOf(data.item, 0);
       if (index > -1) {
         this.character.inventory.splice(index, 1);
-        this._snackBar.open("Item deleted from the Inventory", "OK", {duration: 2000})
+        this._snackBar.open('Item deleted from the Inventory', 'OK', {
+          duration: 2000,
+        });
         this.saveCharacter();
       }
     }

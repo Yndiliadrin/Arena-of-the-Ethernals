@@ -24,6 +24,7 @@ export type Character = {
 
 export type User = {
   _id: string;
+  password: string;
   username: string;
   accessLevel: number;
   character: Character;

@@ -14,6 +14,7 @@ export class IndexPageComponent implements OnInit {
   public character: Character | null = null;
   public skillPoints: number = 0;
   public isAdmin: boolean = false;
+  public username: string = '';
   private timeoutId: any;
 
   constructor(
@@ -31,6 +32,9 @@ export class IndexPageComponent implements OnInit {
 
     this.isAdmin =
       JSON.parse(localStorage.getItem('userObject') || '').accessLevel === 3;
+    this.username = JSON.parse(
+      localStorage.getItem('userObject') || '{}'
+    ).username;
   }
 
   fightCallback(report: any): void {
@@ -68,12 +72,16 @@ export class IndexPageComponent implements OnInit {
     }
   }
 
-
   openSettingsDialog(): void {
     const dialogRef = this.dialog.open(SettingsComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.userService.updateCharacter(result).subscribe((newUser: User) => {
+          localStorage.setItem('userObject', JSON.stringify(newUser));
+          this.username = newUser.username;
+        });
+      }
     });
   }
 
