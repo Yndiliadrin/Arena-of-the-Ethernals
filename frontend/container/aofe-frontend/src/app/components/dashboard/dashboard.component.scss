@@ -1,0 +1,20 @@
+*:not(mat-icon) {
+  font-family: "MedievalSharp", "Franklin Gothic Medium", "Arial Narrow", Arial,
+    sans-serif;
+}
+
+#content-dashboard {
+  text-align: center;
+  &-list {
+    width: 25vw;
+    height: 50vh;
+    overflow-y: scroll;
+    .username {
+      float: left;
+    }
+
+    .actions {
+      float: right;
+    }
+  }
+}

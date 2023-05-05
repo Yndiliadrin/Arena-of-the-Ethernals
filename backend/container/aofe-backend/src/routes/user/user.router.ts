@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import { login, logout, regiszt, user_status } from "./user.auth.service.js";
-import { MGetUserForUpdate, MGetUsers, getUser } from "./user.middleware.js";
+import { MGetUserForUpdate, MGetUserList, MGetUsers, getUser } from "./user.middleware.js";
 import { getUsers, updateUser } from "./user.service.js";
 
 const User = mongoose.model("user");
@@ -17,6 +17,7 @@ userRouter.route("/status").get(user_status);
 userRouter.route("/").post(regiszt);
 
 userRouter.get("/" , MGetUsers, getUsers);
+userRouter.get("/list" , MGetUserList, getUsers);
 
 // GET /users - összes felhasználó lekérdezése
 userRouter.get("/", async (req, res) => {
@@ -40,6 +41,7 @@ userRouter.patch("/:id", MGetUserForUpdate, updateUser);
 // DELETE /users/:id - egy felhasználó törlése az id alapján
 userRouter.delete("/:id", getUser, async (req, res: any) => {
   try {
+    console.log(res.user._id)
     await User.deleteOne({ _id: res.user._id });
     res.json({ message: "A felhasználó sikeresen törölve!" });
   } catch (error) {

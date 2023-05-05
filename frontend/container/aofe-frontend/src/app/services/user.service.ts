@@ -30,4 +30,12 @@ export class UserService {
   getNpcCharacters(): Observable<Array<Npc>> {
     return this.http.get<Array<Npc>>('api/npc');
   }
+
+  getUsers(): Observable<Array<User>> {
+    return this.http.get<Array<User>>(`${this.rootUrl}/list`);
+  }
+
+  deleteUser(_id: string) {
+    return this.http.delete(`${this.rootUrl}/${_id}`);
+  }
 }

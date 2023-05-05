@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<h1 mat-dialog-title>Users Dashboard</h1>
+<div mat-dialog-content>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <section *ngIf="!loading" id="content-dashboard">
+    <mat-list role="list" id="content-dashboard-list">
+      <mat-list-item role="listitem" *ngFor="let user of users">
+        <div>
+          <div class="username">{{user.username}}</div>
+          <div class="actions">
+            <button mat-icon-button color="warn" (click)="deleteUser(user)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </section>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>
