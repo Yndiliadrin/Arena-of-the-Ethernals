@@ -16,7 +16,8 @@
       <mat-grid-tile rowspan="2">
         <mat-list style="width: 100%;">
           <span mat-subheader *ngIf="skillPoints>0">Skillpoints: {{skillPoints}}</span>
-          <mat-list-item *ngFor="let key of propertyList" highlighted class="property-list" [ngClass]="skillPoints > 0 ? 'property-list-active':''" (click)="selectProperty(key)">
+          <mat-list-item *ngFor="let key of propertyList" highlighted class="property-list"
+            [ngClass]="skillPoints > 0 ? 'property-list-active':''" (click)="selectProperty(key)">
             <span>{{key}}</span>
             <section class="number">
               {{getProperty(key)}}
@@ -24,23 +25,26 @@
           </mat-list-item>
         </mat-list>
       </mat-grid-tile>
-      <mat-grid-tile rowspan="2" colspan="2">
-        <mat-list>
-          <div mat-subheader>Equipment</div>
-          <mat-list-item *ngFor="let equipment of character?.equipment" (click)="unEquipItem(equipment)">
-            <span matListItemTitle>{{equipment.name}}</span>
-            <span matListItemLine>DMG: {{equipment.damage}}</span>
-            <span>DEF: {{equipment.defense}}</span>
-          </mat-list-item>
+      <mat-grid-tile rowspan="2" colspan="2" id="item">
+        <div id="item-holder">
+          <mat-list id="equipment">
+            <div mat-subheader class="my-list-header">Equipment [ DEF: {{getDefenseScore()}} | ATK: {{getAttackScore()}} ]</div>
+            <mat-list-item *ngFor="let equipment of character?.equipment" (click)="unEquipItem(equipment)">
+              <span matListItemTitle>{{equipment.name}}</span>
+              <span matListItemLine>DMG: {{equipment.damage}}</span>
+              <span>DEF: {{equipment.defense}}</span>
+            </mat-list-item>
+          </mat-list>
           <mat-divider></mat-divider>
-          <div mat-subheader>Inventory</div>
-          <mat-list-item *ngFor="let item of character?.inventory" (click)="equipItem(item)">
-            <span matListItemTitle>{{item.name}}</span>
-            <span matListItemLine>DMG: {{item.damage}}</span>
-            <span>DEF: {{item.defense}}</span>
-          </mat-list-item>
-        </mat-list>
-
+          <mat-list id="inventory">
+            <div mat-subheader class="my-list-header">Inventory</div>
+            <mat-list-item *ngFor="let item of character?.inventory" (click)="equipItem(item)">
+              <span matListItemTitle>{{item.name}}</span>
+              <span matListItemLine>DMG: {{item.damage}}</span>
+              <span>DEF: {{item.defense}}</span>
+            </mat-list-item>
+          </mat-list>
+        </div>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>

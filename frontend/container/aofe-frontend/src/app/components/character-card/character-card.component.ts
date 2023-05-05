@@ -19,6 +19,9 @@ export class CharacterCardComponent implements OnInit {
 
   constructor(private userService: UserService) {}
 
+  getDefenseScore = () => this.character?.equipment.filter(e=>e.defense>0).map(e=>e.defense).reduce((a,b)=>a+b,0);
+  getAttackScore = () => this.character?.equipment.filter(e=>e.damage>0).map(e=>e.damage).reduce((a,b)=>a+b,0);
+
   ngOnInit(): void {
     const userObject = localStorage.getItem('userObject');
     if (userObject) {

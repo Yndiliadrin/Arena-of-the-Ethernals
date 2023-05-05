@@ -32,8 +32,30 @@
         position: absolute;
         right: 0.5vw;
       }
-      &-active{
+      &-active {
         cursor: pointer;
+      }
+    }
+
+    #item {
+      overflow: visible;
+      &-holder {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+
+        #equipment,
+        #inventory {
+          height: 50%;
+          overflow-y: scroll;
+          margin: 0.3em;
+          border: 1px solid darkgray;
+
+          .my-list-header {
+            text-decoration: underline;
+          }
+        }
       }
     }
   }
