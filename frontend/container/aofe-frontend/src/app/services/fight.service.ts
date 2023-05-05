@@ -15,6 +15,8 @@ export class FightService {
     attacker: string;
     defender: string;
   }): Observable<Array<fightReport>> {
-    return this.http.post<Array<fightReport>>(`${this.rootUrl}/fight`, data);
+    return this.http.post<Array<fightReport>>(`${this.rootUrl}/fight`, data, {
+      withCredentials: true,
+    });
   }
 }
