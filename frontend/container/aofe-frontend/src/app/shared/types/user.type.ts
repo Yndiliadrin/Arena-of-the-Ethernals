@@ -4,6 +4,7 @@ export type Npc = Character & {
 }
 
 export type Item = {
+  _id: string;
   name: string;
   slot: string;
   defense: number;

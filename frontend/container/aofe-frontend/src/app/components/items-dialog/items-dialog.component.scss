@@ -1,0 +1,23 @@
+#content-items {
+  text-align: center;
+  &-list {
+    width: 25vw;
+    height: 50vh;
+    overflow-y: scroll;
+    .content-items-list-element {
+      height: 4vh;
+      overflow: hidden;
+      .itemname {
+        float: left;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .actions {
+        float: right;
+        margin-top: -0.5vh;
+      }
+    }
+  }
+}

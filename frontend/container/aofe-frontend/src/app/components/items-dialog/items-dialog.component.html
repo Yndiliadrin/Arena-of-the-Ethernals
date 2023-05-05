@@ -1,1 +1,27 @@
-<p>items-dialog works!</p>
+<h1 mat-dialog-title>Items</h1>
+<div mat-dialog-content>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <section *ngIf="!loading" id="content-items">
+    <mat-list role="list" id="content-items-list">
+      <mat-list-item role="listitem" *ngFor="let item of items">
+        <section  class="content-items-list-element">
+          <div class="itemname">{{item.name}} [ DMG: {{item.damage}} | DEF: {{item.defense}} ]</div>
+          <div class="actions" *ngIf="isAdmin">
+            <button mat-icon-button color="warn" (click)="deleteItem(item)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="editItem(item)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </section>
+      </mat-list-item>
+    </mat-list>
+  </section>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="openItemFormDialog()" *ngIf="isAdmin">
+    <mat-icon>add</mat-icon>New
+  </button>
+  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>
