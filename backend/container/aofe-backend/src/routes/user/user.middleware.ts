@@ -39,16 +39,14 @@ export const MGetUserForUpdate = async (
   if (!req.user) return res.status(499).json({ message: "Unauthorized" });
   let user = null;
   try {
-    user = await User.findById(req.params.id)
-      .populate("character.equipment")
-      .populate("character.inventory");
+    user = await User.findById(req.params.id);
     if (user == null) {
       return res.status(404).json({ message: "A felhasználó nem található" });
     }
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: error.message });
   } finally {
-    console.log(user);
     res.user = user;
     next();
   }
