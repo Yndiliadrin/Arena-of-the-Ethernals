@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { Character, Npc } from 'src/app/shared/types/user.type';
 import { FightReportComponent } from '../fight-report/fight-report.component';
+import { NpcService } from 'src/app/services/npc.service';
 
 @Component({
   selector: 'app-arena-board',
@@ -18,15 +19,15 @@ export class ArenaBoardComponent implements OnInit {
   }> = [];
   npcCharacterList: Array<Npc> = [];
 
-  constructor(private userService: UserService, public dialog: MatDialog) {}
+  constructor(private userService: UserService, public dialog: MatDialog, private npcService: NpcService) {}
 
   ngOnInit(): void {
     this.userService
       .getUserCharacters()
       .subscribe((data) => (this.userCharacterList = data));
 
-    this.userService
-      .getNpcCharacters()
+    this.npcService
+      .readNpcs()
       .subscribe((data) => (this.npcCharacterList = data));
   }
 

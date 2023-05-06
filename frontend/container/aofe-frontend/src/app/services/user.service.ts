@@ -29,10 +29,6 @@ export class UserService {
     >(this.rootUrl, { withCredentials: true });
   }
 
-  getNpcCharacters(): Observable<Array<Npc>> {
-    return this.http.get<Array<Npc>>('api/npc', { withCredentials: true });
-  }
-
   getUsers(): Observable<Array<User>> {
     return this.http.get<Array<User>>(`${this.rootUrl}/list`, {
       withCredentials: true,

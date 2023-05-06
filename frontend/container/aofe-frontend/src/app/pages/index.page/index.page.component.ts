@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DashboardComponent } from 'src/app/components/dashboard/dashboard.component';
 import { ItemsDialogComponent } from 'src/app/components/items-dialog/items-dialog.component';
+import { NpcDialogComponent } from 'src/app/components/npc-dialog/npc-dialog.component';
 import { SettingsComponent } from 'src/app/components/settings/settings.component';
 import { UserService } from 'src/app/services/user.service';
 import { Character, User } from 'src/app/shared/types/user.type';
@@ -93,7 +94,10 @@ export class IndexPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openNpcDialog(): void {}
+  openNpcDialog(): void {
+    const dialogRef = this.dialog.open(NpcDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {});}
 
   openDashboardDialog(): void {
     const dialogRef = this.dialog.open(DashboardComponent);

@@ -1,1 +1,27 @@
-<p>npc-dialog works!</p>
+<h1 mat-dialog-title>Non Playable Characters</h1>
+<div mat-dialog-content>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <section *ngIf="!loading" id="content-npcs">
+    <mat-list role="list" id="content-npcs-list">
+      <mat-list-item role="listitem" *ngFor="let npc of npcs">
+        <section  class="content-npcs-list-element">
+          <div class="itemname">{{npc.name}} [ LvL: {{npc.level}} ]</div>
+          <div class="actions" *ngIf="isAdmin">
+            <button mat-icon-button color="warn" (click)="deleteNpc(npc)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="editNpc(npc)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </section>
+      </mat-list-item>
+    </mat-list>
+  </section>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="editNpc()" *ngIf="isAdmin">
+    <mat-icon>add</mat-icon>New
+  </button>
+  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>
