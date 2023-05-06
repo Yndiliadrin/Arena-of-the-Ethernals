@@ -17,18 +17,14 @@ export class ArenaBoardComponent implements OnInit {
     character: Character;
     _id: string;
   }> = [];
-  npcCharacterList: Array<Npc> = [];
+  @Input() npcCharacterList: Array<Npc> = [];
 
-  constructor(private userService: UserService, public dialog: MatDialog, private npcService: NpcService) {}
+  constructor(private userService: UserService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.userService
       .getUserCharacters()
       .subscribe((data) => (this.userCharacterList = data));
-
-    this.npcService
-      .readNpcs()
-      .subscribe((data) => (this.npcCharacterList = data));
   }
 
   openFightDialog(

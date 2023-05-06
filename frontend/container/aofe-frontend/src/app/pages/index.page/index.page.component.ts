@@ -5,8 +5,9 @@ import { DashboardComponent } from 'src/app/components/dashboard/dashboard.compo
 import { ItemsDialogComponent } from 'src/app/components/items-dialog/items-dialog.component';
 import { NpcDialogComponent } from 'src/app/components/npc-dialog/npc-dialog.component';
 import { SettingsComponent } from 'src/app/components/settings/settings.component';
+import { NpcService } from 'src/app/services/npc.service';
 import { UserService } from 'src/app/services/user.service';
-import { Character, User } from 'src/app/shared/types/user.type';
+import { Character, Npc, User } from 'src/app/shared/types/user.type';
 
 @Component({
   selector: 'app-index.page',
@@ -19,11 +20,13 @@ export class IndexPageComponent implements OnInit {
   public isAdmin: boolean = false;
   public username: string = '';
   private timeoutId: any;
+  npcCharacterList: Array<Npc> = [];
 
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private npcService: NpcService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +41,8 @@ export class IndexPageComponent implements OnInit {
     this.username = JSON.parse(
       localStorage.getItem('userObject') || '{}'
     ).username;
+
+    this.fetchNpcList();
   }
 
   fightCallback(report: any): void {
@@ -97,7 +102,10 @@ export class IndexPageComponent implements OnInit {
   openNpcDialog(): void {
     const dialogRef = this.dialog.open(NpcDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {});}
+    dialogRef.afterClosed().subscribe((result) => {
+      this.fetchNpcList();
+    });
+  }
 
   openDashboardDialog(): void {
     const dialogRef = this.dialog.open(DashboardComponent);
@@ -136,6 +144,12 @@ export class IndexPageComponent implements OnInit {
         return skillpointsBasedOnTheLevel - spentSkillpointsOnTopOfTheBase;
     }
     return 0;
+  }
+
+  private fetchNpcList() {
+    this.npcService
+      .readNpcs()
+      .subscribe((data) => (this.npcCharacterList = data));
   }
 
   private saveCharacter(): void {

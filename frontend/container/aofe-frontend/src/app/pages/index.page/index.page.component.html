@@ -25,7 +25,7 @@
             (selectPropertyCallback)="selectPropertyCallback($event)"></app-character-card>
         </mat-grid-tile>
         <mat-grid-tile>
-          <app-arena-board (figthReportCallback)="fightCallback($event)"></app-arena-board>
+          <app-arena-board (figthReportCallback)="fightCallback($event)" [npcCharacterList]="npcCharacterList"></app-arena-board>
         </mat-grid-tile>
       </mat-grid-list>
     </section>
