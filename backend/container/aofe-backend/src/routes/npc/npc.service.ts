@@ -25,14 +25,23 @@ export const createNpc = async (req, res) => {
 
 /**
  * Updates the NPC int the database
- * 
+ *
  * @param req
  * @param res
  * @returns
  */
 export const updateNpc = async (req, res) => {
   try {
-    const npc = new Npc(req.body);
+    let npc = await Npc.findById(req.body._id);
+
+    npc.name = req.body.name;
+    npc.level = req.body.level;
+    npc.strength = req.body.strength;
+    npc.dexterity = req.body.dexterity;
+    npc.intelligence = req.body.intelligence;
+    npc.exp = req.body.exp;
+    npc.hp = req.body.hp;
+
     await npc.save();
   } catch (error) {
     console.error(error);
@@ -59,3 +68,5 @@ export const deleteNpc = async (req, res) => {
     return res.status(200).json({ success: true });
   }
 };
+
+// Istenem (ha létezel)! Ez itt mégis mi a faszom?!
