@@ -27,7 +27,7 @@ export const getRandomFromDatabase = async (req, res) => {
 
 export const generateRandomLoot = async () => {
   try {
-    const rarity = Math.floor(Math.random() * (15 - 1) + 1);
+    const rarity = Math.floor(Math.random() * (50 - 1) + 1);
     const items: Array<IItem> = await Item.find(
       { rarity: { $lte: rarity } },
       { __v: 0 }
