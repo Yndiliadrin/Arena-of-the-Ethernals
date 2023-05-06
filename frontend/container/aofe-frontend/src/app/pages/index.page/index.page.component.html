@@ -2,14 +2,17 @@
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
     <mat-drawer #drawer class="sidenav" mode="over">
       <button mat-button (click)="openNpcDialog()" *ngIf="isAdmin">NPCs</button>
-      <br  *ngIf="isAdmin">
+      <br *ngIf="isAdmin">
       <button mat-button (click)="openItemsDialog()">Items</button>
       <br>
       <button mat-button (click)="openDashboardDialog()" *ngIf="isAdmin">Dashboard</button>
-      <br  *ngIf="isAdmin">
+      <br *ngIf="isAdmin">
       <button mat-button (click)="openSettingsDialog()">Settings</button>
       <br>
       <button mat-button color="warn" (click)="logout()">Logout</button>
+
+      <a href="https://www.flaticon.com/free-icons/stadium" title="stadium icons">Stadium icons created by Freepik -
+        Flaticon</a>
     </mat-drawer>
 
     <div class="example-sidenav-content">
@@ -25,7 +28,8 @@
             (selectPropertyCallback)="selectPropertyCallback($event)"></app-character-card>
         </mat-grid-tile>
         <mat-grid-tile>
-          <app-arena-board (figthReportCallback)="fightCallback($event)" [npcCharacterList]="npcCharacterList"></app-arena-board>
+          <app-arena-board (figthReportCallback)="fightCallback($event)" [npcCharacterList]="npcCharacterList">
+          </app-arena-board>
         </mat-grid-tile>
       </mat-grid-list>
     </section>
