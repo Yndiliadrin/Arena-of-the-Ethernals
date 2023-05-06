@@ -91,33 +91,25 @@ export const userSchema = new Schema({
 //   equipment: ["644f7bb8565a049ce5b707d2" as unknown as Schema.Types.ObjectId]
 // }
 
-// #3 A user sémájához egy pre-hookot adunk hozzá, amely a mentés előtt fut le
 userSchema.pre("save", function (next) {
   const user = this;
-  // Ellenőrizzük, hogy a jelszó módosult-e
   if (user.isModified("password")) {
-    // Generálunk egy sót a jelszó hash-eléséhez
     bcrypt.genSalt(10, function (err, salt) {
       if (err) {
         console.log("hiba a salt generalasa soran");
-        // Ha hiba történik a só generálásakor, akkor visszatérünk a hibával
         return next(err);
       }
-      // Hash-eljük a jelszót a sóval
       bcrypt.hash(user.password, salt, function (error, hash) {
         if (error) {
           console.log("hiba a hasheles soran");
-          // Ha hiba történik a hash-elés során, akkor visszatérünk a hibával
           return next(error);
         }
-        // Beállítjuk a jelszó értékét a hash-re
         user.password = hash;
         user.salt = salt;
         return next();
       });
     });
   } else {
-    // Ha a jelszó nem módosult, akkor folytatjuk a mentést
     return next();
   }
 });
