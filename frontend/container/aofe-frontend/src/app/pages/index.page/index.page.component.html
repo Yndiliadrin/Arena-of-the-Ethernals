@@ -2,11 +2,11 @@
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
     <mat-drawer #drawer class="sidenav" mode="over">
       <button mat-button (click)="openNpcDialog()" *ngIf="isAdmin">NPCs</button>
-      <br>
+      <br  *ngIf="isAdmin">
       <button mat-button (click)="openItemsDialog()">Items</button>
       <br>
       <button mat-button (click)="openDashboardDialog()" *ngIf="isAdmin">Dashboard</button>
-      <br>
+      <br  *ngIf="isAdmin">
       <button mat-button (click)="openSettingsDialog()">Settings</button>
       <br>
       <button mat-button color="warn" (click)="logout()">Logout</button>
