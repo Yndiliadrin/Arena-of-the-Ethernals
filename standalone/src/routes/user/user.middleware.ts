@@ -12,7 +12,6 @@ export async function getUser(req, res, next) {
   let user = null;
   try {
     user = await User.findById(req.params.id, {
-      _id: 0,
       __v: 0,
       password: 0,
       salt: 0,
@@ -39,16 +38,14 @@ export const MGetUserForUpdate = async (
   if (!req.user) return res.status(499).json({ message: "Unauthorized" });
   let user = null;
   try {
-    user = await User.findById(req.params.id)
-      .populate("character.equipment")
-      .populate("character.inventory");
+    user = await User.findById(req.params.id);
     if (user == null) {
       return res.status(404).json({ message: "A felhasználó nem található" });
     }
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: error.message });
   } finally {
-    console.log(user);
     res.user = user;
     next();
   }
@@ -59,9 +56,8 @@ export async function MGetUsers(req, res, next) {
   let user = null;
   try {
     user = await User.find(
-      {},
+      { _id: { $ne: req.user._id } },
       {
-        _id: 0,
         __v: 0,
         password: 0,
         salt: 0,
@@ -83,3 +79,31 @@ export async function MGetUsers(req, res, next) {
     next();
   }
 }
+
+export const MGetUserList = async (req, res, next) => {
+  if (!req.user) return res.status(499).json({ message: "Unauthorized" });
+  if (req.user.accessLevel !== 3)
+    return res.status(499).json({ message: "Unauthorized" });
+  let user = null;
+  try {
+    user = await User.find(
+      {},
+      {
+        __v: 0,
+        password: 0,
+        salt: 0,
+        character: 0,
+      }
+    );
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "There is no user in the database" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  } finally {
+    res.user = user;
+    next();
+  }
+};

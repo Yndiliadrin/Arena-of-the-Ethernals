@@ -1,6 +1,10 @@
 import { IItem } from "../../database/item/itemSchema.js";
 import { INpc, Npc } from "../../database/npc/npcSchema.js";
 import { Character, ICharacter, User } from "../../database/user/userSchema.js";
+import {
+  generateRandomLoot,
+  getRandomFromDatabase,
+} from "../item/item.service.js";
 import { FightPlayback } from "./arena.types.js";
 
 /**
@@ -26,7 +30,7 @@ export const fight = async (req, res) => {
     element: INpc
   ): { _id: string; character: ICharacter } => {
     return {
-      _id: element.name,
+      _id: element._id,
       character: element as ICharacter,
     };
   };
@@ -43,31 +47,44 @@ export const fight = async (req, res) => {
       )
     );
 
-    console.log(characters[0].character.equipment);
+    // remove null from the array (if there is any)
+    characters = characters.filter((e) => e !== null);
 
     // If the array's length is shorter than 2 than it's an indicator that the users
     // fights againts an NPC
-    if (characters.length > 2) {
+    if (characters.length < 2) {
       let npcsTemp = await Npc.find({
-        _id: { $in: [req.body.attacker, req.body.defender] },
+        _id: req.body.defender,
       }).populate("equipment");
 
-      console.log(npcsTemp.map(mapNpcObjects));
+      characters.push(...npcsTemp.map(mapNpcObjects));
     }
 
     let roundCounter = 1;
     while (true) {
-      let winner = "";
-      if (roundCounter % 2 == 1)
-        winner = simulateFightRound(characters[0], characters[1]);
-      else if (roundCounter % 2 == 0)
-        winner = simulateFightRound(characters[1], characters[0]);
+      let tmpDefHP =
+        roundCounter % 2 == 1
+          ? characters[1].character.hp
+          : characters[0].character.hp;
+      if (roundCounter % 2 == 1) {
+        let winner = simulateFightRound(characters[0], characters[1]);
+        playback.push({
+          atk: characters[0]._id,
+          def: characters[1]._id,
+          dmg: tmpDefHP - characters[1].character.hp,
+          winner,
+        });
+      } else if (roundCounter % 2 == 0) {
+        let winner = simulateFightRound(characters[1], characters[0]);
+        playback.push({
+          atk: characters[1]._id,
+          def: characters[0]._id,
+          dmg: tmpDefHP - characters[0].character.hp,
+          winner,
+        });
+      }
 
-      if (characters[0].character.hp <= 0) {
-        console.log(winner);
-        break;
-      } else if (characters[1].character.hp <= 0) {
-        console.log(winner);
+      if (characters[0].character.hp <= 0 || characters[1].character.hp <= 0) {
         break;
       }
       roundCounter++;
@@ -75,6 +92,12 @@ export const fight = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(200).json([]);
+  }
+
+  if (playback[playback.length - 1]["winner"] === characters[0]._id) {
+    if (d6() > 3)
+      playback[playback.length - 1]["loot"] = await generateRandomLoot();
+    else playback[playback.length - 1]["loot"] = null;
   }
 
   return res.status(200).json(playback);
@@ -86,13 +109,13 @@ const simulateFightRound = (
 ) => {
   const attackScore =
     (2 / 3) * attacker.character.dexterity +
-    (1 / 2) * attacker.character.intelligence +
+    (2 / 3) * attacker.character.intelligence +
     d6();
 
   const defendScore =
     defender.character.dexterity +
     getDefendItemBonus(defender.character) +
-    d8();
+    d6();
 
   if (attackScore > defendScore) {
     defender.character.hp -=
@@ -132,9 +155,3 @@ const getAttackItemBonus = (c: ICharacter): number => {
         })
     : 0;
 };
-
-
-/**
- * a: 5 | 3
- * b: 5 | 7
- */

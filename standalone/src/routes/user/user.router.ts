@@ -1,8 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import { login, logout, regiszt, user_status } from "./user.auth.service.js";
-import { MGetUserForUpdate, MGetUsers, getUser } from "./user.middleware.js";
-import { getUsers, updateUser } from "./user.service.js";
+import {
+  MGetUserForUpdate,
+  MGetUserList,
+  MGetUsers,
+  getUser,
+} from "./user.middleware.js";
+import { deleteUser, getUsers, updateUser } from "./user.service.js";
 
 const User = mongoose.model("user");
 
@@ -16,7 +21,8 @@ userRouter.route("/status").get(user_status);
 
 userRouter.route("/").post(regiszt);
 
-userRouter.get("/" , MGetUsers, getUsers);
+userRouter.get("/", MGetUsers, getUsers);
+userRouter.get("/list", MGetUserList, getUsers);
 
 // GET /users - összes felhasználó lekérdezése
 userRouter.get("/", async (req, res) => {
@@ -38,11 +44,4 @@ userRouter.get("/:id", getUser, (req, res: any) => {
 userRouter.patch("/:id", MGetUserForUpdate, updateUser);
 
 // DELETE /users/:id - egy felhasználó törlése az id alapján
-userRouter.delete("/:id", getUser, async (req, res: any) => {
-  try {
-    await User.deleteOne({ _id: res.user._id });
-    res.json({ message: "A felhasználó sikeresen törölve!" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+userRouter.delete("/:id", getUser, deleteUser);

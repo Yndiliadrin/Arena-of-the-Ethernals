@@ -40,12 +40,24 @@ export const updateUser = async (req, res) => {
 
   try {
     const tmp = await res.user.save();
-    const updatedUser = await User.find({ _id: tmp._id }, {__v: 0, "character.__v":0})
+    const updatedUser = await User.find(
+      { _id: tmp._id },
+      { __v: 0, "character.__v": 0 }
+    )
       .populate("character.equipment")
       .populate("character.inventory");
-    res.json(updatedUser);
+    res.json(updatedUser[0]);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req, res: any) => {
+  try {
+    await User.deleteOne({ _id: res.user._id });
+    res.json({ message: "A felhasználó sikeresen törölve!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

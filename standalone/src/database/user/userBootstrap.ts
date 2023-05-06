@@ -11,8 +11,8 @@ export const ensureAdminExists = async () => {
       console.log("Az admin felhasználó már megtalálható az adatbázisban!");
     } else {
       const newAdmin = new User({
-        username: "admin",
-        password: "superSecureAdminPassword",
+        username: process.env["ADMIN_USER_USERNAME"],
+        password: process.env["ADMIN_USER_PASSWORD"],
         accessLevel: 3,
       });
       await newAdmin.save();

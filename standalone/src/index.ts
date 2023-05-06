@@ -15,6 +15,12 @@ import { populateItemsCollection } from "./database/item/itemBootstrap.js";
 import { populateNpcCollection } from "./database/npc/npcBootstrap.js";
 import { itemRouter } from "./routes/item/item.router.js";
 import { arenaRouter } from "./routes/arena/arena.router.js";
+import { npcRouter } from "./routes/npc/npc.router.js";
+
+
+
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -24,24 +30,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-mongoose.connect(
-  "",
-  {
-    dbName: "Arena",
-  }
-);
+// mongoose.connect("mongodb://database", {
+//   user: process.env["DATABASE_USER_USERNAME"],
+//   pass: process.env["DATABASE_USER_PASSWORD"],
+//   dbName: "Arena",
+// });
 
-export const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once("open", () => {
-  console.log("Connected to MongoDB successfully");
-});
+// export const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "MongoDB connection error:"));
+// db.once("open", () => {
+//   console.log("Connected to MongoDB successfully");
+// });
 
 passport.use(
   "local",
   new localStrategy.Strategy(function (username, password, done) {
     User.findOne({ username: username })
       .populate("character.equipment")
+      .populate("character.inventory")
       .then((user: any) => {
         if (!user) return done("Nincs ilyen felhasználónév", null);
         user.comparePasswords(password, function (error: any, isMatch: any) {
@@ -65,28 +71,32 @@ passport.deserializeUser(function (user, done) {
 });
 
 app.use(
-  expressSession({ secret: 'process.env["SESSION_SECRET"]', resave: true })
+  expressSession({
+    secret: "IdonkentArraGondolokHogyMegKelleneHalni",
+    resave: true,
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req: any, res: any, next: any) => {
-  console.log("A middleware futott!");
-  next();
-});
-
 app.use("/api/users", userRouter);
+app.use("/api/npc", npcRouter);
 app.use("/api/item", itemRouter);
 app.use("/api/arena", arenaRouter);
 
 app.use("/status", status);
 
-app.use("", express.static("static"));
-app.use("*", express.static("static"))
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+app.use("", express.static(__dirname+"/public"));
+app.use("*", express.static(__dirname+"/public"));
+
 
 app.listen(3000, () => {
-  ensureAdminExists();
-  populateItemsCollection();
-  populateNpcCollection();
-  console.log("Server is running on http://localhost:3000");
+  // ensureAdminExists();
+  // populateItemsCollection();
+  // populateNpcCollection();
+  console.log("Server is running on http://localhost:80");
 });
