@@ -9,6 +9,7 @@ const npcSchema = new Schema<INpc>({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   ...characterSchema.obj,
 });
