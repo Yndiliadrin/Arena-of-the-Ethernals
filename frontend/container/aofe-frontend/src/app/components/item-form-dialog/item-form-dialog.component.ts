@@ -14,7 +14,7 @@ export class ItemFormDialogComponent implements OnInit {
     slot: new FormControl('', Validators.required),
     defense: new FormControl(0, Validators.required),
     damage: new FormControl(0, Validators.required),
-    rarity: new FormControl(1, Validators.required),
+    rarity: new FormControl(-1),
   });
 
   editing: boolean = false;

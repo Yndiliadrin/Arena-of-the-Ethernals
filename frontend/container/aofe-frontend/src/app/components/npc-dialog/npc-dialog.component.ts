@@ -36,6 +36,8 @@ export class NpcDialogComponent {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
+      if (data.edit === undefined) return;
+
       if (data.edit) {
         this.npcService.updateNpc({_id: npc?._id, ...data.data}).subscribe((resp) => {
           resp && this.fetchData();

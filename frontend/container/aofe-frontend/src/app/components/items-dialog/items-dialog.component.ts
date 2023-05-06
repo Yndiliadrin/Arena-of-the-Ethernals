@@ -36,10 +36,14 @@ export class ItemsDialogComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((data) => {
+      if (data.edit === undefined) return;
+
       if (data.edit) {
-        this.itemService.updateItem({_id: item?._id, ...data.data}).subscribe((resp) => {
-          resp && this.fetchData();
-        });
+        this.itemService
+          .updateItem({ _id: item?._id, ...data.data })
+          .subscribe((resp) => {
+            resp && this.fetchData();
+          });
       } else {
         this.itemService.createItem(data.data).subscribe((resp) => {
           resp && this.fetchData();
