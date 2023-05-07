@@ -1,32 +1,5 @@
 version: "3.7"
 services:
-  reverse-proxy:
-    image: ate-reverse-proxy
-    container_name: ate-reverse-proxy
-    build:
-      context: ./reverse_proxy
-      dockerfile: Dockerfile
-    networks:
-      ate-network: {}
-    depends_on:
-      - frontend
-      - backend
-      - database
-    ports:
-      - "90:80"
-      - "443:443"
-    restart: on-failure
-
-  frontend:
-    image: ate-frontend
-    container_name: ate-frontend
-    build:
-      context: ./frontend
-      dockerfile: prod.Dockerfile
-    networks:
-      ate-network: {}
-    restart: on-failure
-
   backend:
     image: ate-backend
     container_name: ate-backend
@@ -39,6 +12,8 @@ services:
       DATABASE_USER_USERNAME : ${DATABASE_USER_USERNAME}
       DATABASE_USER_PASSWORD : ${DATABASE_USER_PASSWORD}
       SESSION_SECRET : ${SESSION_SECRET}
+    ports:
+      - "90:80"
     build:
       context: ./backend
       dockerfile: prod.Dockerfile

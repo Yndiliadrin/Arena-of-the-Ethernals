@@ -71,11 +71,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req: any, res: any, next: any) => {
-  console.log("A middleware futott!");
-  next();
-});
-
 app.use("/api/users", userRouter);
 app.use("/api/npc", npcRouter);
 app.use("/api/item", itemRouter);
@@ -84,7 +79,7 @@ app.use("/api/arena", arenaRouter);
 app.use("/status", status);
 
 app.use("", express.static("public"));
-app.use("*", express.static("static"));
+app.use("*", express.static("public"));
 
 app.listen(80, () => {
   ensureAdminExists();
